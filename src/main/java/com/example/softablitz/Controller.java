@@ -65,5 +65,15 @@ public class Controller
             }
         });
     }
+    @FXML
+    protected void saveButtonPressed(){
+        File outputFile = new File("D:/newImage.png");
+        BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.snapshot(null, null), null);
+        try {
+            ImageIO.write(bImage, "png", outputFile);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+//        }
+    }
 
 }
