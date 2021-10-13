@@ -1,44 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXSlider?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" styleClass="black-color" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
+<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" style="-fx-background-color: black;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
     <children>
-        <AnchorPane prefHeight="27.0" prefWidth="584.0">
+        <AnchorPane prefHeight="650.0" prefWidth="1280.0">
             <children>
-                <JFXSlider fx:id="bottomToUpCrop" layoutY="79.0" orientation="VERTICAL" prefHeight="558.0" prefWidth="30.0" />
-                <JFXSlider fx:id="leftToRightCrop" layoutX="14.0" layoutY="72.0" prefHeight="14.0" prefWidth="1037.0" />
-                <JFXSlider fx:id="topToBottomCrop" layoutX="1041.0" layoutY="79.0" orientation="VERTICAL" prefHeight="558.0" prefWidth="20.0">
-               <effect>
-                  <Lighting>
-                     <bumpInput>
-                        <Shadow />
-                     </bumpInput>
-                     <light>
-<!--                        <Light.Distant />-->
-                     </light>
-                  </Lighting>
-               </effect></JFXSlider>
                 <AnchorPane fx:id="imageViewPane" layoutX="45.0" layoutY="99.0" maxHeight="693.0" maxWidth="1062.0" minHeight="381.0" minWidth="-Infinity" prefHeight="517.0" prefWidth="973.0">
-                    <effect>
-                  <Glow level="0.13">
-                     <input>
-                        <ColorAdjust brightness="-1.0" />
-                     </input>
-                  </Glow>
-                    </effect>
+                    <children>
+                        <ImageView fx:id="imageView" fitHeight="517.0" fitWidth="973.0" pickOnBounds="true" preserveRatio="true" />
+                    </children>
                 </AnchorPane>
                 <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="1280.0" styleClass="grey-color" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.0">
                     <menus>
@@ -64,71 +40,74 @@
                 </MenuBar>
             </children>
         </AnchorPane>
-        <AnchorPane layoutX="578.0" prefHeight="622.0" prefWidth="207.0" styleClass="grey-color" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <AnchorPane layoutX="578.0" prefHeight="623.0" prefWidth="211.0" styleClass="grey-color" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="-4.0">
             <children>
                 <JFXButton layoutY="14.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text="   Crop" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@icons/cropicon2.png" />
-                     </image>
-                     <effect>
-                        <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
-                           <input>
-                              <Glow level="0.9" />
-                           </input>
-                        </ColorAdjust>
-                     </effect>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton layoutY="62.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text=" Brightness" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="23.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@icons/brightnessicon2.png" />
-                     </image>
-                     <effect>
-                        <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
-                           <input>
-                              <Glow level="0.9" />
-                           </input>
-                        </ColorAdjust>
-                     </effect>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton layoutY="116.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text="   Contrast" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@icons/contrasticon2.png" />
-                     </image>
-                     <effect>
-                        <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
-                           <input>
-                              <Glow level="0.9" />
-                           </input>
-                        </ColorAdjust>
-                     </effect>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/cropicon2.png" />
+                            </image>
+                            <effect>
+                                <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
+                                    <input>
+                                        <Glow level="0.9" />
+                                    </input>
+                                </ColorAdjust>
+                            </effect>
+                        </ImageView>
+                    </graphic>
+                </JFXButton>
+                <JFXButton layoutY="62.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text=" Brightness" textAlignment="JUSTIFY" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/brightnessicon2.png" />
+                            </image>
+                            <effect>
+                                <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
+                                    <input>
+                                        <Glow level="0.9" />
+                                    </input>
+                                </ColorAdjust>
+                            </effect>
+                        </ImageView>
+                    </graphic>
+                </JFXButton>
+                <JFXButton layoutY="116.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text="   Contrast" textAlignment="JUSTIFY" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                    <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icons/contrasticon2.png" />
+                            </image>
+                            <effect>
+                                <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
+                                    <input>
+                                        <Glow level="0.9" />
+                                    </input>
+                                </ColorAdjust>
+                            </effect>
+                        </ImageView>
+                    </graphic>
+                </JFXButton>
+            <Button layoutX="60.0" layoutY="174.0" mnemonicParsing="false" onAction="#adjustHandle" text="Adjust" />
+            <Slider fx:id="brightness" layoutX="16.0" layoutY="234.0" />
+            <Slider fx:id="contrast" layoutX="16.0" layoutY="261.0" />
+            <Slider fx:id="hue" layoutX="15.0" layoutY="289.0" />
+            <Slider fx:id="saturation" layoutX="16.0" layoutY="322.0" />
+            <Button fx:id="rotate" layoutX="14.0" layoutY="369.0" mnemonicParsing="false" onAction="#rotate90" text="RotateBy90" />
+            <Button fx:id="rotate1" layoutX="102.0" layoutY="369.0" mnemonicParsing="false" onAction="#rotate180" text="RotateBy180" />
             </children>
-         <effect>
-            <ColorAdjust brightness="-0.19" contrast="1.0" />
-         </effect>
-      </AnchorPane>
-      <JFXSlider fx:id="rightToLeftCrop" layoutX="13.0" layoutY="631.0" prefHeight="14.0" prefWidth="1037.0" />
+        </AnchorPane>
 
     </children>
 </AnchorPane>

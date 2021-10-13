@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -37,6 +38,14 @@ public class Controller implements Initializable {
     private Slider topToBottomCrop, leftToRightCrop, rightToLeftCrop, bottomToUpCrop;
     @FXML
     private AnchorPane menuBarPane, imageViewPane;
+    @FXML
+    private Slider brightness;
+    @FXML
+    private Slider contrast;
+    @FXML
+    private Slider hue;
+    @FXML
+    private Slider saturation;
 
     @FXML
     protected void fileButtonClicked() {
@@ -55,11 +64,12 @@ public class Controller implements Initializable {
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select files", "*.jpg", "*.png", "*.jpeg");
         fileChooser.getExtensionFilters().add(filter);
         for (File x : fileChooser.showOpenMultipleDialog(null)) {
-            ImageView imageView = new ImageView(new Image((new FileInputStream(x))));
-            imageViewPane.getChildren().add(imageView);
+            imageView.setImage(new Image((new FileInputStream(x))));
         }
         Text txt = new Text("temp");
-        imageViewPane.getChildren().add(txt);
+//        imageViewPane.getChildren().add(imageView);
+//        imageViewPane.getChildren().add(txt);
+        handleZoom();
     }
 
     @FXML
@@ -101,7 +111,6 @@ public class Controller implements Initializable {
         bottomToUpCrop.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                System.out.println(bottomToUpCrop.getValue());
                 double x = bottomToUpCrop.getValue() * orgHeight / 100;
                 Rectangle2D rectangle2D = new Rectangle2D(0, 0, orgWidth, x);
                 imageView.setViewport(rectangle2D);
@@ -151,8 +160,53 @@ public class Controller implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
-    {
-        
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
+
+    @FXML
+    protected void adjustHandle()
+    {
+        ColorAdjust colorAdjust = new ColorAdjust();
+        brightness.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                colorAdjust.setBrightness(brightness.getValue()/100);
+                imageView.setEffect(colorAdjust);
+            }
+        });
+        contrast.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                colorAdjust.setContrast(contrast.getValue()/100);
+                imageView.setEffect(colorAdjust);
+            }
+        });
+        hue.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                colorAdjust.setHue(hue.getValue()/100);
+                imageView.setEffect(colorAdjust);
+            }
+        });
+        saturation.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                colorAdjust.setSaturation(saturation.getValue()/100);
+                imageView.setEffect(colorAdjust);
+            }
+        });
+    }
+
+    @FXML
+    protected void rotate90(){
+
+            imageView.setRotate((90+imageView.getRotate()) );
+    }
+    @FXML
+    protected void rotate180(){
+
+        imageView.setRotate((180+imageView.getRotate()) );
+    }
+
 }
