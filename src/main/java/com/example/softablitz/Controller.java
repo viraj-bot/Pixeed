@@ -5,19 +5,27 @@ import javafx.beans.Observable;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+
 import java.awt.image.BufferedImage;
+
 import javafx.embed.swing.SwingFXUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javax.imageio.ImageIO;
+
 import javafx.geometry.Rectangle2D;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +36,8 @@ public class Controller implements Initializable {
     @FXML
     private Slider topToBottomCrop, leftToRightCrop, rightToLeftCrop, bottomToUpCrop;
     @FXML
-    private AnchorPane menuBarPane;
+    private AnchorPane menuBarPane, imageViewPane;
+
     @FXML
     protected void fileButtonClicked() {
         File outputFile = new File("C:/formattedPicture.png");
@@ -39,14 +48,18 @@ public class Controller implements Initializable {
             throw new RuntimeException(e);
         }
     }
+
     @FXML
     protected void openFile() throws FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select files", "*.jpg", "*.png", "*.jpeg");
         fileChooser.getExtensionFilters().add(filter);
         for (File x : fileChooser.showOpenMultipleDialog(null)) {
-            imageView.setImage(new Image((new FileInputStream(x))));
+            ImageView imageView = new ImageView(new Image((new FileInputStream(x))));
+            imageViewPane.getChildren().add(imageView);
         }
+        Text txt = new Text("temp");
+        imageViewPane.getChildren().add(txt);
     }
 
     @FXML
@@ -61,11 +74,21 @@ public class Controller implements Initializable {
                 if (deltaY < 0) {
                     zoomFactor = 0.95;
                 }
-                imageView.setScaleX(imageView.getScaleX() * zoomFactor);
-                imageView.setScaleY(imageView.getScaleY() * zoomFactor);
-                event.consume();
+                double finalZoomFactor = zoomFactor;
+
+                imageView.setScaleX(imageView.getScaleX() * finalZoomFactor);
+                imageView.setScaleY(imageView.getScaleY() * finalZoomFactor);
             }
         });
+        imageView.setOnMouseDragEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                imageViewPane.setCursor(Cursor.OPEN_HAND);
+                System.out.println(mouseEvent.getY());
+                System.out.println(mouseEvent.getX());
+            }
+        });
+
     }
 
     @FXML
@@ -128,8 +151,8 @@ public class Controller implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
+        
     }
 }
