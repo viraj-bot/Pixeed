@@ -29,11 +29,10 @@ import javafx.geometry.Rectangle2D;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    @FXML
-    private ImageView imageView;
     @FXML
     private Slider topToBottomCrop, leftToRightCrop, rightToLeftCrop, bottomToUpCrop;
     @FXML
@@ -46,6 +45,9 @@ public class Controller implements Initializable {
     private Slider hue;
     @FXML
     private Slider saturation;
+
+    private ImageView imageView;
+    private List<File> list;
 
     @FXML
     protected void fileButtonClicked() {
@@ -61,14 +63,48 @@ public class Controller implements Initializable {
     @FXML
     protected void openFile() throws FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select files", "*.jpg", "*.png", "*.jpeg");
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select files", "*.jpg", "*.png", "*.jpeg", "*.jfif");
         fileChooser.getExtensionFilters().add(filter);
-        for (File x : fileChooser.showOpenMultipleDialog(null)) {
-            imageView.setImage(new Image((new FileInputStream(x))));
+        int padding = 10;
+        list = fileChooser.showOpenMultipleDialog(null);
+        if (list.size() == 1) {
+            File x = list.get(0);
+            ImageView imageView = new ImageView();
+            Image image = new Image((new FileInputStream(x)));
+            imageView.setImage(image);
+            double ratio = Math.min((double) imageViewPane.getHeight() / image.getHeight(), (double) imageViewPane.getWidth() / image.getWidth());
+            imageView.setFitWidth(image.getWidth() * ratio);
+            imageView.setFitHeight(image.getHeight() * ratio);
+            double wid = imageView.getFitWidth();
+            double hig = imageView.getFitHeight();
+            imageView.setLayoutX((imageViewPane.getWidth() - wid) / 2 - padding);
+            imageView.setLayoutY((imageViewPane.getHeight() - hig) / 2 - padding);
+            imageViewPane.getChildren().add(imageView);
+        } else {
+            double startx = 0;
+            double starty = 0;
+            Boolean done = false;
+            int dex = 0;
+            for (File x : list) {
+                Image image = new Image((new FileInputStream(x)));
+                ImageView imageView = new ImageView(image);
+                imageView.setFitWidth(imageViewPane.getWidth() / 2 - 10);
+                imageView.setFitHeight(imageViewPane.getHeight() / 2 - 10);
+                imageView.setLayoutX(startx);
+                imageView.setLayoutY(starty);
+                dex++;
+                if (dex == 1) {
+                    startx = imageView.getFitWidth() + 10;
+                } else if (dex == 2) {
+                    startx = 0;
+                    starty = imageView.getFitHeight() + 10;
+                } else if (dex == 3) {
+                    startx = imageView.getFitWidth() + 10;
+                    starty = imageView.getFitHeight() + 10;
+                }
+                imageViewPane.getChildren().add(imageView);
+            }
         }
-        Text txt = new Text("temp");
-//        imageViewPane.getChildren().add(imageView);
-//        imageViewPane.getChildren().add(txt);
         handleZoom();
     }
 
@@ -165,48 +201,48 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    protected void adjustHandle()
-    {
+    protected void adjustHandle() {
         ColorAdjust colorAdjust = new ColorAdjust();
         brightness.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                colorAdjust.setBrightness(brightness.getValue()/100);
+                colorAdjust.setBrightness(brightness.getValue() / 100);
                 imageView.setEffect(colorAdjust);
             }
         });
         contrast.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                colorAdjust.setContrast(contrast.getValue()/100);
+                colorAdjust.setContrast(contrast.getValue() / 100);
                 imageView.setEffect(colorAdjust);
             }
         });
         hue.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                colorAdjust.setHue(hue.getValue()/100);
+                colorAdjust.setHue(hue.getValue() / 100);
                 imageView.setEffect(colorAdjust);
             }
         });
         saturation.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                colorAdjust.setSaturation(saturation.getValue()/100);
+                colorAdjust.setSaturation(saturation.getValue() / 100);
                 imageView.setEffect(colorAdjust);
             }
         });
     }
 
     @FXML
-    protected void rotate90(){
+    protected void rotate90() {
 
-            imageView.setRotate((90+imageView.getRotate()) );
+        imageView.setRotate((90 + imageView.getRotate()));
     }
-    @FXML
-    protected void rotate180(){
 
-        imageView.setRotate((180+imageView.getRotate()) );
+    @FXML
+    protected void rotate180() {
+
+        imageView.setRotate((180 + imageView.getRotate()));
     }
 
 }
