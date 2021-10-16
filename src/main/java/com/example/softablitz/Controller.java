@@ -107,7 +107,6 @@ public class Controller implements Initializable {
         }
         handleZoom();
     }
-
     @FXML
     protected void handleZoom() {
         imageView.maxWidth(100);

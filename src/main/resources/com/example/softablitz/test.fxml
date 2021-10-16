@@ -5,14 +5,14 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" style="-fx-background-color: black;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.test">
+<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.test">
    <children>
       <AnchorPane prefHeight="650.0" prefWidth="1280.0">
          <children>
@@ -27,179 +27,223 @@
                         <MenuItem mnemonicParsing="false" text="Exit" />
                      </items>
                   </Menu>
-                  <Menu mnemonicParsing="false" text="Help">
-                     <MenuItem mnemonicParsing="false" text="About"/>
+                  <Menu mnemonicParsing="false" text="Collage">
+                     <Menu mnemonicParsing="false" text="2">
+                       <items>
+                           <MenuItem mnemonicParsing="false" onAction="#HORIZONTOLDOUBLE">
+                              <graphic>
+                                 <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@icons/2horizontol.jpg" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </MenuItem>
+                           <MenuItem mnemonicParsing="false" onAction="#VERTICALDOUBLE">
+                              <graphic>
+                                 <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@icons/2verticalNew.jpg" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </MenuItem>
+                       </items>
+                     </Menu>
+                     <Menu mnemonicParsing="false" text="3">
+                        <items>
+                           <MenuItem mnemonicParsing="false" onAction="#HORIZONTOLTRIPLE">
+                              <graphic>
+                                 <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@icons/hor.jpg" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </MenuItem>
+                           <MenuItem mnemonicParsing="false" onAction="#VERTICALTRIPLE">
+                              <graphic>
+                                 <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@icons/3vertical%20(2).jpg" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </MenuItem>
+                        </items>
+                     </Menu>
+                     <Menu mnemonicParsing="false" text="4">
+                        <items>
+                           <MenuItem mnemonicParsing="false" onAction="#QUAD">
+                              <graphic>
+                                 <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@icons/4photo.jpg" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </MenuItem>
+                        </items>
+                     </Menu>
                   </Menu>
                </menus>
             </MenuBar>
-            <AnchorPane layoutX="1045.0" layoutY="27.0" prefHeight="623.0" prefWidth="227.0"
-                        style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.1999999999999318"
-                        AnchorPane.rightAnchor="7.7999999999999545">
+            <AnchorPane layoutX="1045.0" layoutY="27.0" prefHeight="623.0" prefWidth="227.0" style="-fx-background-color: grey;" AnchorPane.bottomAnchor="0.1999999999999318" AnchorPane.rightAnchor="7.7999999999999545">
                <Slider fx:id="brightness" layoutX="106.0" layoutY="29.0" prefHeight="14.0" prefWidth="108.0">
                   <effect>
-                     <Lighting diffuseConstant="1.47" specularConstant="2.0" specularExponent="40.0"
-                               surfaceScale="3.44">
+                     <Lighting diffuseConstant="1.47" specularConstant="2.0" specularExponent="40.0" surfaceScale="3.44">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.9490196108818054" green="0.9372549057006836" blue="0.7686274647712708"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.9490196108818054" green="0.9372549057006836" blue="0.7686274647712708" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>
                </Slider>
                <Slider fx:id="contrast" layoutX="106.0" layoutY="51.0" prefHeight="14.0" prefWidth="108.0">
                   <effect>
-                     <Lighting diffuseConstant="1.49" specularConstant="2.0" specularExponent="40.0"
-                               surfaceScale="3.43">
+                     <Lighting diffuseConstant="1.49" specularConstant="2.0" specularExponent="40.0" surfaceScale="3.43">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.9490196108818054" green="0.9372549057006836" blue="0.7686274647712708"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.9490196108818054" green="0.9372549057006836" blue="0.7686274647712708" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>
                </Slider>
                <Slider fx:id="hue" layoutX="106.0" layoutY="73.0" prefHeight="14.0" prefWidth="108.0">
                   <effect>
-                     <Lighting diffuseConstant="1.48" specularConstant="2.0" specularExponent="40.0"
-                               surfaceScale="3.43">
+                     <Lighting diffuseConstant="1.48" specularConstant="2.0" specularExponent="40.0" surfaceScale="3.43">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.9490196108818054" green="0.9372549057006836" blue="0.7686274647712708"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.9490196108818054" green="0.9372549057006836" blue="0.7686274647712708" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>
                </Slider>
                <Slider fx:id="saturation" layoutX="106.0" layoutY="96.0" prefHeight="14.0" prefWidth="108.0">
                   <effect>
-                     <Lighting diffuseConstant="1.48" specularConstant="2.0" specularExponent="40.0"
-                               surfaceScale="3.43">
+                     <Lighting diffuseConstant="1.48" specularConstant="2.0" specularExponent="40.0" surfaceScale="3.43">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.9490196108818054" green="0.9372549057006836" blue="0.7686274647712708"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.9490196108818054" green="0.9372549057006836" blue="0.7686274647712708" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>
                </Slider>
-               <TextField alignment="CENTER" editable="false" layoutX="14.0" layoutY="29.0" minHeight="-Infinity"
-                          minWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" text="Brightness">
+               <TextField alignment="CENTER" editable="false" layoutX="14.0" layoutY="29.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" text="Brightness">
                   <font>
-                     <Font name="Arial Rounded MT Bold" size="10.0"/>
+                     <Font name="Arial Rounded MT Bold" size="10.0" />
                   </font>
                   <effect>
                      <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0" surfaceScale="1.87">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.8745098114013672" green="0.6313725709915161" blue="0.8274509906768799"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.8745098114013672" green="0.6313725709915161" blue="0.8274509906768799" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>
                </TextField>
-               <TextField alignment="CENTER" editable="false" layoutX="14.0" layoutY="51.0" minHeight="-Infinity"
-                          minWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" text="Contrast">
+               <TextField alignment="CENTER" editable="false" layoutX="14.0" layoutY="51.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" text="Contrast">
                   <font>
-                     <Font name="Arial Rounded MT Bold" size="10.0"/>
+                     <Font name="Arial Rounded MT Bold" size="10.0" />
                   </font>
                   <effect>
                      <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0" surfaceScale="2.48">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.8745098114013672" green="0.6313725709915161" blue="0.8274509906768799"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.8745098114013672" green="0.6313725709915161" blue="0.8274509906768799" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>
                </TextField>
-               <TextField alignment="CENTER" editable="false" layoutX="14.0" layoutY="73.0" minHeight="-Infinity"
-                          minWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" text="Hue">
+               <TextField alignment="CENTER" editable="false" layoutX="14.0" layoutY="73.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" text="Hue">
                   <font>
-                     <Font name="Arial Rounded MT Bold" size="10.0"/>
+                     <Font name="Arial Rounded MT Bold" size="10.0" />
                   </font>
                   <effect>
                      <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0" surfaceScale="2.14">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.8745098114013672" green="0.6313725709915161" blue="0.8274509906768799"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.8745098114013672" green="0.6313725709915161" blue="0.8274509906768799" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>
                </TextField>
-               <TextField editable="false" layoutX="14.0" layoutY="96.0" minHeight="-Infinity" minWidth="-Infinity"
-                          prefHeight="14.0" prefWidth="75.0" text="Saturation">
+               <TextField editable="false" layoutX="14.0" layoutY="96.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" text="Saturation">
                   <font>
-                     <Font name="Arial Rounded MT Bold" size="10.0"/>
+                     <Font name="Arial Rounded MT Bold" size="10.0" />
                   </font>
                   <effect>
                      <Lighting diffuseConstant="2.0" specularConstant="0.0" specularExponent="40.0" surfaceScale="2.14">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.8745098114013672" green="0.6313725709915161" blue="0.8274509906768799"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.8745098114013672" green="0.6313725709915161" blue="0.8274509906768799" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>
                </TextField>
-               <TextField alignment="CENTER" editable="false" layoutX="68.0" minHeight="-Infinity" minWidth="-Infinity"
-                          onAction="#adjustHandle" prefHeight="26.0" prefWidth="75.0" text="Adjust">
+               <TextField alignment="CENTER" editable="false" layoutX="68.0" minHeight="-Infinity" minWidth="-Infinity" onAction="#adjustHandle" prefHeight="26.0" prefWidth="75.0" text="Adjust">
                   <font>
-                     <Font name="Arial Black" size="14.0"/>
+                     <Font name="Arial Black" size="14.0" />
                   </font>
                   <effect>
-                     <Lighting diffuseConstant="1.47" specularConstant="2.0" specularExponent="36.7"
-                               surfaceScale="1.74">
+                     <Lighting diffuseConstant="1.47" specularConstant="2.0" specularExponent="36.7" surfaceScale="1.74">
                         <bumpInput>
-                           <Shadow/>
+                           <Shadow />
                         </bumpInput>
                         <light>
-                           <Light.Distant>
-                              <color>
-                                 <Color red="0.5498635768890381" green="0.8934165239334106" blue="0.9052631855010986"/>
-                              </color>
-                           </Light.Distant>
+<!--                           <Light.Distant>-->
+<!--                              <color>-->
+<!--                                 <Color red="0.5498635768890381" green="0.8934165239334106" blue="0.9052631855010986" />-->
+<!--                              </color>-->
+<!--                           </Light.Distant>-->
                         </light>
                      </Lighting>
                   </effect>

@@ -6,15 +6,18 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -32,7 +35,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class test implements Initializable {
-    @FXML
+
     private ImageView imageView;
     @FXML
     private Slider topToBottomCrop, leftToRightCrop, rightToLeftCrop, bottomToUpCrop;
@@ -48,14 +51,10 @@ public class test implements Initializable {
     private Slider saturation;
 
     @FXML
-    protected void fileButtonClicked() {
-        File outputFile = new File("C:/formattedPicture.png");
-        BufferedImage bImage = SwingFXUtils.fromFXImage(imageView.snapshot(null, null), null);
-        try {
-            ImageIO.write(bImage, "png", outputFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    protected void fileButtonClicked() throws IOException {
+        WritableImage image = imageViewPane.snapshot(new SnapshotParameters(), null);
+        File file = new File("D:\\anchor.png");
+        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
     }
 
     @FXML
@@ -109,39 +108,197 @@ public class test implements Initializable {
             public void handle(MouseEvent mouseEvent) {
                 Dragboard db = imageViewPane.startDragAndDrop(TransferMode.ANY);
                 ClipboardContent content = new ClipboardContent();
-//                content.putString(imageView.)
+            }
+        });
+    }
+
+    protected void openFile(ImageView imageView) throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select files", "*.jpg", "*.png", "*.jpeg", "*.jfif");
+        fileChooser.getExtensionFilters().add(filter);
+        List<File> list = fileChooser.showOpenMultipleDialog(null);
+        File x = list.get(0);
+        Image image = new Image((new FileInputStream(x)));
+        imageView.setImage(image);
+    }
+
+    @FXML
+    protected void handleZoom() {
+        imageView.maxWidth(100);
+        imageView.maxHeight(100);
+        imageView.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                double zoomFactor = 1.05;
+                double deltaY = event.getDeltaY();
+                if (deltaY < 0) {
+                    zoomFactor = 0.95;
+                }
+                double finalZoomFactor = zoomFactor;
+
+                imageView.setScaleX(imageView.getScaleX() * finalZoomFactor);
+                imageView.setScaleY(imageView.getScaleY() * finalZoomFactor);
+            }
+        });
+        imageView.setOnMouseDragEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                imageViewPane.setCursor(Cursor.OPEN_HAND);
+                System.out.println(mouseEvent.getY());
+                System.out.println(mouseEvent.getX());
             }
         });
 
     }
 
-    @FXML
-    protected void handleZoom() {
-//        imageView.maxWidth(100);
-//        imageView.maxHeight(100);
-//        imageView.setOnScroll(new EventHandler<ScrollEvent>() {
-//            @Override
-//            public void handle(ScrollEvent event) {
-//                double zoomFactor = 1.05;
-//                double deltaY = event.getDeltaY();
-//                if (deltaY < 0) {
-//                    zoomFactor = 0.95;
-//                }
-//                double finalZoomFactor = zoomFactor;
-//
-//                imageView.setScaleX(imageView.getScaleX() * finalZoomFactor);
-//                imageView.setScaleY(imageView.getScaleY() * finalZoomFactor);
-//            }
-//        });
-//        imageView.setOnMouseDragEntered(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent mouseEvent) {
-//                imageViewPane.setCursor(Cursor.OPEN_HAND);
-//                System.out.println(mouseEvent.getY());
-//                System.out.println(mouseEvent.getX());
-//            }
-//        });
+    public void centerImage(ImageView imageView, AnchorPane anchorPane) {
+        double hig = imageView.getFitHeight();
+        double wid = imageView.getFitWidth();
+        imageView.setLayoutX((anchorPane.getPrefWidth() - wid) / 2);
+        imageView.setLayoutY((anchorPane.getPrefHeight() - hig) / 2);
+        System.out.println(anchorPane.getPrefWidth() + " " + wid / 2);
+    }
 
+    protected void addCollageFrame(AnchorPane anchorPane, int startx, int starty, double width, double height) throws FileNotFoundException {
+        Image image = new Image(new FileInputStream(new File("src/main/resources/com/example/softablitz/icons/selection.jpg")));
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(width - 20);
+        imageView.setFitHeight(height - 15);
+        anchorPane.setLayoutX(startx);
+        anchorPane.setLayoutY(starty);
+        anchorPane.setPrefHeight(imageView.getFitHeight());
+        anchorPane.setPrefWidth(imageView.getFitWidth());
+        anchorPane.getChildren().add(imageView);
+        imageViewPane.getChildren().add(anchorPane);
+        imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                try {
+                    System.out.println("clicked1");
+                    openFile(imageView);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        addResizeButton(anchorPane, imageView);
+    }
+
+    protected void addResizeButton(AnchorPane anchorPane, ImageView imageView) {
+        Button button = new Button();
+        button.resize(40, 40);
+        anchorPane.getChildren().add(button);
+        button.setLayoutX(anchorPane.getPrefWidth() - 30);
+        button.setStyle("-fx-background-color: red");
+        button.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                anchorPane.setCursor(Cursor.MOVE);
+
+            }
+        });
+        button.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                anchorPane.setCursor(Cursor.DEFAULT);
+            }
+        });
+        button.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                button.setLayoutX(mouseEvent.getSceneX() - 20);
+                button.setLayoutY(mouseEvent.getSceneY() - 50);
+                if (mouseEvent.getSceneX() <= anchorPane.getPrefWidth()) {
+                    imageView.setFitWidth(mouseEvent.getSceneX());
+                }
+                if (mouseEvent.getSceneY() <= anchorPane.getPrefHeight()) {
+                    imageView.setFitHeight(mouseEvent.getSceneY());
+                }
+                centerImage(imageView, anchorPane);
+            }
+        });
+    }
+
+    @FXML
+    protected void HORIZONTOLDOUBLE() throws FileNotFoundException {
+        imageViewPane.getChildren().clear();
+        int startx = 10;
+        int starty = 10;
+        double height = imageViewPane.getHeight() / 2;
+        double width = imageViewPane.getWidth();
+        AnchorPane anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+        starty = (int) (anchorPane.getPrefHeight() + 15);
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+    }
+
+    @FXML
+    protected void VERTICALDOUBLE() throws FileNotFoundException {
+        imageViewPane.getChildren().clear();
+        int startx = 10;
+        int starty = 10;
+        double height = imageViewPane.getHeight();
+        double width = imageViewPane.getWidth() / 2;
+        AnchorPane anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+        startx = (int) (anchorPane.getPrefWidth() + 30);
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+    }
+
+    @FXML
+    protected void HORIZONTOLTRIPLE() throws FileNotFoundException {
+        imageViewPane.getChildren().clear();
+        int startx = 10;
+        int starty = 10;
+        double height = imageViewPane.getHeight() / 3;
+        double width = imageViewPane.getWidth();
+        AnchorPane anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+        starty = (int) (anchorPane.getPrefHeight() + 20);
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+        starty = (int) (2 * anchorPane.getPrefHeight() + 30);
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+    }
+    @FXML
+    protected void VERTICALTRIPLE() throws FileNotFoundException {
+        imageViewPane.getChildren().clear();
+        int startx = 10;
+        int starty = 10;
+        double height = imageViewPane.getHeight();
+        double width = imageViewPane.getWidth() / 3;
+        AnchorPane anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+        startx = (int) (anchorPane.getPrefWidth() + 30);
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+        startx = (int) (2 * anchorPane.getPrefWidth() + 50);
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+    }
+    @FXML
+    protected void QUAD() throws FileNotFoundException {
+        imageViewPane.getChildren().clear();
+        int startx = 10;
+        int starty = 10;
+        double height = imageViewPane.getHeight() / 2;
+        double width = imageViewPane.getWidth() / 2;
+        AnchorPane anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+
+        starty = (int) (anchorPane.getPrefHeight() + 20);
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+
+        startx = (int) (anchorPane.getPrefWidth() + 20);
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
+        starty = 10;
+        anchorPane = new AnchorPane();
+        addCollageFrame(anchorPane, startx, starty, width, height);
     }
 
     @FXML
@@ -149,8 +306,6 @@ public class test implements Initializable {
         System.out.println("Crop Button Pressed");
         Double orgWidth = imageView.getFitWidth();
         Double orgHeight = imageView.getFitHeight();
-
-
         bottomToUpCrop.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
@@ -176,31 +331,10 @@ public class test implements Initializable {
         rightToLeftCrop.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-
             }
         });
-
     }
 
-    public void centerImage() {
-        Image img = imageView.getImage();
-        if (img != null) {
-            double w = 0;
-            double h = 0;
-            double ratioX = imageView.getFitWidth() / img.getWidth();
-            double ratioY = imageView.getFitHeight() / img.getHeight();
-            double reducCoeff = 0;
-            if (ratioX >= ratioY) {
-                reducCoeff = ratioY;
-            } else {
-                reducCoeff = ratioX;
-            }
-            w = img.getWidth() * reducCoeff;
-            h = img.getHeight() * reducCoeff;
-            imageView.setX((imageView.getFitWidth() - w) / 2);
-            imageView.setY((imageView.getFitHeight() - h) / 2);
-        }
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
