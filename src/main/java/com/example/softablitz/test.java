@@ -187,6 +187,8 @@ public class test implements Initializable {
     protected void addResizeButton(AnchorPane anchorPane, ImageView imageView) {
         Button button = new Button();
         button.resize(40, 40);
+
+
         anchorPane.getChildren().add(button);
         button.setLayoutX(anchorPane.getPrefWidth() - 30);
         button.setStyle("-fx-background-color: red");

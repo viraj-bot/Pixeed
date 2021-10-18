@@ -2,135 +2,296 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.Glow?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" style="-fx-background-color: black;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
+<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0"
+            prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
     <children>
-        <AnchorPane prefHeight="650.0" prefWidth="1280.0">
+        <AnchorPane prefHeight="650.0" prefWidth="1280.0" style="-fx-background-color: black;">
             <children>
-                <AnchorPane fx:id="imageViewPane" layoutX="45.0" layoutY="99.0" maxHeight="693.0" maxWidth="1062.0" minHeight="381.0" minWidth="-Infinity" prefHeight="517.0" prefWidth="973.0">
-                    <children>
-                        <ImageView fx:id="imageView" fitHeight="517.0" fitWidth="973.0" pickOnBounds="true" preserveRatio="true" />
-                    </children>
-                </AnchorPane>
-                <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="1280.0" styleClass="grey-color" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.0">
+                <AnchorPane fx:id="imageViewPane" layoutX="-2.0" layoutY="25.0" maxHeight="693.0" maxWidth="1073.0"
+                            minHeight="381.0" minWidth="-Infinity" prefHeight="623.0" prefWidth="1073.0"/>
+                <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="1280.0" styleClass="grey-color"
+                         AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
-                                <MenuItem mnemonicParsing="false" onAction="#fileButtonClicked" text="Save" />
-                                <MenuItem mnemonicParsing="false" text="Save as" />
-                                <MenuItem mnemonicParsing="false" text="Exit" />
+                                <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open"/>
+                                <MenuItem mnemonicParsing="false" onAction="#fileButtonClicked" text="Save"/>
+                                <MenuItem mnemonicParsing="false" text="Save as"/>
+                                <MenuItem mnemonicParsing="false" text="Exit"/>
                             </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Collage">
+                            <Menu mnemonicParsing="false" text="2">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#HORIZONTOLDOUBLE">
+                                        <graphic>
+                                            <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                       preserveRatio="true">
+                                                <image>
+                                                    <Image url="@icons/2horizontol.jpg"/>
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false" onAction="#VERTICALDOUBLE">
+                                        <graphic>
+                                            <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                       preserveRatio="true">
+                                                <image>
+                                                    <Image url="@icons/2verticalNew.jpg"/>
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </MenuItem>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="3">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#HORIZONTOLTRIPLE">
+                                        <graphic>
+                                            <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                       preserveRatio="true">
+                                                <image>
+                                                    <Image url="@icons/hor.jpg"/>
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </MenuItem>
+                                    <MenuItem mnemonicParsing="false" onAction="#VERTICALTRIPLE">
+                                        <graphic>
+                                            <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                       preserveRatio="true">
+                                                <image>
+                                                    <Image url="@icons/3vertical%20(2).jpg"/>
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </MenuItem>
+                                </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="4">
+                                <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#QUAD">
+                                        <graphic>
+                                            <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                       preserveRatio="true">
+                                                <image>
+                                                    <Image url="@icons/4photo.jpg"/>
+                                                </image>
+                                            </ImageView>
+                                        </graphic>
+                                    </MenuItem>
+                                </items>
+                            </Menu>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Edit">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Delete" />
+                                <MenuItem mnemonicParsing="false" text="Delete"/>
                             </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
+                        <Menu mnemonicParsing="false" text="Frames">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
+                                <MenuItem mnemonicParsing="false" onAction="#SETFRAME1" text="Frame1">
+                                    <graphic>
+                                        <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@icons/frame1.jpg"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </MenuItem>
+                                <MenuItem mnemonicParsing="false" onAction="#SETFRAME2" text="Frame2">
+                                    <graphic>
+                                        <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@icons/frame2.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </MenuItem>
+                                <MenuItem mnemonicParsing="false" onAction="#SETFRAME3" text="Frame3">
+                                    <graphic>
+                                        <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@icons/frame3.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </MenuItem>
+                                <MenuItem mnemonicParsing="false" onAction="#SETFRAME4" text="Frame4">
+                                    <graphic>
+                                        <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@icons/frame4.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </MenuItem>
+                                <MenuItem mnemonicParsing="false" onAction="#SETFRAME5" text="Frame5">
+                                    <graphic>
+                                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@icons/frame5.jpg"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </MenuItem>
+                                <MenuItem mnemonicParsing="false" onAction="#SETFRAME6" text="Frame6">
+                                    <graphic>
+                                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@icons/frame6.jpg"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </MenuItem>
                             </items>
                         </Menu>
                     </menus>
                 </MenuBar>
-            </children>
-        </AnchorPane>
-        <AnchorPane layoutX="578.0" prefHeight="623.0" prefWidth="211.0" styleClass="grey-color" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="-4.0">
-            <children>
-                <JFXButton layoutY="14.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text="   Crop" textAlignment="JUSTIFY" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                    <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/cropicon2.png" />
-                            </image>
-                            <effect>
-                                <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
-                                    <input>
-                                        <Glow level="0.9" />
-                                    </input>
-                                </ColorAdjust>
-                            </effect>
-                        </ImageView>
-                    </graphic>
-                </JFXButton>
-                <JFXButton layoutY="62.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text=" Brightness" textAlignment="JUSTIFY" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                    <graphic>
-                        <ImageView fitHeight="23.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/brightnessicon2.png" />
-                            </image>
-                            <effect>
-                                <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
-                                    <input>
-                                        <Glow level="0.9" />
-                                    </input>
-                                </ColorAdjust>
-                            </effect>
-                        </ImageView>
-                    </graphic>
-                </JFXButton>
-                <JFXButton layoutY="116.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text="   Contrast" textAlignment="JUSTIFY" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                    <graphic>
-                        <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/contrasticon2.png" />
-                            </image>
-                            <effect>
-                                <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
-                                    <input>
-                                        <Glow level="0.9" />
-                                    </input>
-                                </ColorAdjust>
-                            </effect>
-                        </ImageView>
-                    </graphic>
-                </JFXButton>
-            <Button layoutX="60.0" layoutY="174.0" mnemonicParsing="false" onAction="#adjustHandle" text="Adjust" />
-            <Slider fx:id="brightness" layoutX="16.0" layoutY="234.0" />
-            <Slider fx:id="contrast" layoutX="16.0" layoutY="261.0" />
-            <Slider fx:id="hue" layoutX="15.0" layoutY="289.0" />
-            <Slider fx:id="saturation" layoutX="16.0" layoutY="322.0" />
-            <Button fx:id="rotate" layoutX="14.0" layoutY="369.0" mnemonicParsing="false" onAction="#rotate90" text="RotateBy90" />
-            <Button fx:id="rotate1" layoutX="102.0" layoutY="369.0" mnemonicParsing="false" onAction="#rotate180" text="RotateBy180" />
-            <JFXButton layoutY="412.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text="Text" textAlignment="JUSTIFY" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@icons/contrasticon2.png" />
-                     </image>
-                     <effect>
-                        <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
-                           <input>
-                              <Glow level="0.9" />
-                           </input>
-                        </ColorAdjust>
-                     </effect>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
+                <AnchorPane prefHeight="623.0" prefWidth="211.0" styleClass="grey-color" AnchorPane.bottomAnchor="-1.0"
+                            AnchorPane.rightAnchor="-4.0">
+                    <children>
+                        <JFXButton layoutY="14.0" onAction="#cropButtonPressed" onMouseClicked="#cropButtonPressed"
+                                   prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text="   Crop"
+                                   textAlignment="JUSTIFY" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/cropicon2.png"/>
+                                    </image>
+                                    <effect>
+                                        <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
+                                            <input>
+                                                <Glow level="0.9"/>
+                                            </input>
+                                        </ColorAdjust>
+                                    </effect>
+                                </ImageView>
+                            </graphic>
+                        </JFXButton>
+                        <JFXButton layoutY="62.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0"
+                                   prefWidth="203.0" styleClass="grey-color" text=" Brightness" textAlignment="JUSTIFY"
+                                   textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <ImageView fitHeight="23.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/brightnessicon2.png"/>
+                                    </image>
+                                    <effect>
+                                        <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
+                                            <input>
+                                                <Glow level="0.9"/>
+                                            </input>
+                                        </ColorAdjust>
+                                    </effect>
+                                </ImageView>
+                            </graphic>
+                        </JFXButton>
+                        <JFXButton layoutY="116.0" onMouseClicked="#cropButtonPressed" prefHeight="39.0"
+                                   prefWidth="203.0" styleClass="grey-color" text="   Contrast" textAlignment="JUSTIFY"
+                                   textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/contrasticon2.png"/>
+                                    </image>
+                                    <effect>
+                                        <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
+                                            <input>
+                                                <Glow level="0.9"/>
+                                            </input>
+                                        </ColorAdjust>
+                                    </effect>
+                                </ImageView>
+                            </graphic>
+                        </JFXButton>
+                        <Button layoutX="60.0" layoutY="174.0" mnemonicParsing="false" onAction="#adjustHandle"
+                                text="Adjust"/>
+                        <Slider fx:id="brightness" layoutX="16.0" layoutY="234.0"/>
+                        <Slider fx:id="contrast" layoutX="16.0" layoutY="261.0"/>
+                        <Slider fx:id="hue" layoutX="15.0" layoutY="289.0"/>
+                        <Slider fx:id="saturation" layoutX="16.0" layoutY="322.0"/>
+                        <Button fx:id="rotate" layoutX="14.0" layoutY="369.0" mnemonicParsing="false"
+                                onAction="#rotate90" text="RotateBy90"/>
+                        <Button fx:id="rotate1" layoutX="102.0" layoutY="369.0" mnemonicParsing="false"
+                                onAction="#rotate180" text="RotateBy180"/>
+                        <JFXButton layoutY="405.0" onAction="#textButtonPressed" prefHeight="39.0" prefWidth="203.0"
+                                   styleClass="grey-color" text="Text" textAlignment="JUSTIFY" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="18.0"/>
+                            </font>
+                            <graphic>
+                                <ImageView fitHeight="30.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@icons/contrasticon2.png"/>
+                                    </image>
+                                    <effect>
+                                        <ColorAdjust brightness="0.92" contrast="1.0" hue="1.0" saturation="1.0">
+                                            <input>
+                                                <Glow level="0.9"/>
+                                            </input>
+                                        </ColorAdjust>
+                                    </effect>
+                                </ImageView>
+                            </graphic>
+                        </JFXButton>
+                        <AnchorPane fx:id="TEXTPANE" layoutY="459.0" prefHeight="144.0" prefWidth="203.0">
+                            <children>
+                                <JFXButton layoutX="73.0" layoutY="132.0" onAction="#ADDBUTTONPRESSED" text="ADD"
+                                           textFill="WHITE"/>
+                                <ColorPicker fx:id="COLORPICKER" layoutY="59.0" prefHeight="25.0" prefWidth="203.0">
+                                    <effect>
+                                        <Lighting diffuseConstant="0.83" specularConstant="0.52">
+                                            <bumpInput>
+                                                <Shadow/>
+                                            </bumpInput>
+
+                                        </Lighting>
+                                    </effect>
+                                </ColorPicker>
+                                <Slider fx:id="FONTADJUST" layoutX="76.0" layoutY="107.0" prefHeight="14.0"
+                                        prefWidth="126.0"/>
+                                <Label layoutX="3.0" layoutY="104.0" prefHeight="20.0" prefWidth="61.0"
+                                       style="-fx-text-fill: white;" text="FONT SIZE"/>
+                                <TextArea fx:id="FIELD" layoutX="21.0" layoutY="10.0" prefHeight="39.0"
+                                          prefWidth="163.0"/>
+                            </children>
+                        </AnchorPane>
+                    </children>
+                </AnchorPane>
             </children>
         </AnchorPane>
 
