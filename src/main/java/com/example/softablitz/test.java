@@ -7,7 +7,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -15,8 +18,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.FileChooser;
-
+import javafx.scene.canvas.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -26,6 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 import javafx.geometry.Rectangle2D;
 
@@ -35,6 +43,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class test implements Initializable {
+
 
     private ImageView imageView;
     @FXML
@@ -49,6 +58,15 @@ public class test implements Initializable {
     private Slider hue;
     @FXML
     private Slider saturation;
+    @FXML
+    private TextField brushSize;
+    @FXML
+    private CheckBox eraser;
+    @FXML
+    private ColorPicker colorPicker;
+
+
+
 
     @FXML
     protected void fileButtonClicked() throws IOException {
@@ -66,17 +84,19 @@ public class test implements Initializable {
         List<File> list = fileChooser.showOpenMultipleDialog(null);
         if (list.size() == 1) {
             File x = list.get(0);
-            ImageView imageView = new ImageView();
+
+            ImageView imageView1 = new ImageView();
             Image image = new Image((new FileInputStream(x)));
-            imageView.setImage(image);
+            imageView1.setImage(image);
             double ratio = Math.min((double) imageViewPane.getHeight() / image.getHeight(), (double) imageViewPane.getWidth() / image.getWidth());
-            imageView.setFitWidth(image.getWidth() * ratio);
-            imageView.setFitHeight(image.getHeight() * ratio);
-            double wid = imageView.getFitWidth();
-            double hig = imageView.getFitHeight();
-            imageView.setLayoutX((imageViewPane.getWidth() - wid) / 2 - padding);
-            imageView.setLayoutY((imageViewPane.getHeight() - hig) / 2 - padding);
-            imageViewPane.getChildren().add(imageView);
+            imageView1.setFitWidth(image.getWidth() * ratio);
+            imageView1.setFitHeight(image.getHeight() * ratio);
+            double wid = imageView1.getFitWidth();
+            double hig = imageView1.getFitHeight();
+            imageView1.setLayoutX((imageViewPane.getWidth() - wid) / 2 - padding);
+            imageView1.setLayoutY((imageViewPane.getHeight() - hig) / 2 - padding);
+            imageViewPane.getChildren().add(imageView1);
+            imageView =  imageView1;
         } else {
             double startx = 0;
             double starty = 0;
@@ -150,6 +170,31 @@ public class test implements Initializable {
         });
 
     }
+    @FXML
+
+    protected void zoomIn() {
+        imageView.maxWidth(100);
+        imageView.maxHeight(100);
+
+        double finalZoomFactor = 1.05;
+
+        imageView.setScaleX(imageView.getScaleX() * finalZoomFactor);
+        imageView.setScaleY(imageView.getScaleY() * finalZoomFactor);
+
+
+    }
+    @FXML
+    protected void zoomOut() {
+        imageView.maxWidth(100);
+        imageView.maxHeight(100);
+
+        double finalZoomFactor = 0.95;
+
+        imageView.setScaleX(imageView.getScaleX() * finalZoomFactor);
+        imageView.setScaleY(imageView.getScaleY() * finalZoomFactor);
+
+
+    }
 
     public void centerImage(ImageView imageView, AnchorPane anchorPane) {
         double hig = imageView.getFitHeight();
@@ -187,8 +232,6 @@ public class test implements Initializable {
     protected void addResizeButton(AnchorPane anchorPane, ImageView imageView) {
         Button button = new Button();
         button.resize(40, 40);
-
-
         anchorPane.getChildren().add(button);
         button.setLayoutX(anchorPane.getPrefWidth() - 30);
         button.setStyle("-fx-background-color: red");
@@ -387,5 +430,45 @@ public class test implements Initializable {
 
         imageView.setRotate((180 + imageView.getRotate()));
     }
+
+
+    @FXML
+    protected void flipVertical() {
+        Translate flipTranslation = new Translate(0, imageView.getImage().getHeight());
+        Rotate flipRotation = new Rotate(180, Rotate.X_AXIS);
+        imageView.getTransforms().addAll(flipTranslation, flipRotation);
+    }
+
+    @FXML
+    protected void flipHorizontal() {
+        Translate flipTranslation = new Translate(imageView.getImage().getWidth(),0);
+        Rotate flipRotation = new Rotate(180, Rotate.Y_AXIS);
+        imageView.getTransforms().addAll(flipTranslation, flipRotation);
+    }
+
+
+    @FXML
+    public void colorFiller()
+    {
+        final Canvas canvas =new Canvas(250,250);
+        GraphicsContext g;
+        g = canvas.getGraphicsContext2D();
+        canvas.setOnMouseDragged(e->{
+            double size= Double.parseDouble(brushSize.getText());
+            double x= e.getX()-size/2;
+            double y= e.getY()-size/2;
+
+            if(eraser.isSelected())
+            {g.clearRect(x,y,size,size);
+            }
+            else
+            {  g.setFill(colorPicker.getValue());
+                g.fillRect(x,y,size,size);
+            }
+        });
+    }
+
+
+
 
 }
