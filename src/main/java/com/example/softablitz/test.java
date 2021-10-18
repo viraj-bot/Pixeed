@@ -1,5 +1,6 @@
 package com.example.softablitz;
 
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.event.EventHandler;
@@ -36,6 +37,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import javafx.geometry.Rectangle2D;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -64,6 +66,9 @@ public class test implements Initializable {
     private CheckBox eraser;
     @FXML
     private ColorPicker colorPicker;
+    @FXML
+    private int x,y,height,width;
+
 
 
 
@@ -74,6 +79,14 @@ public class test implements Initializable {
         File file = new File("D:\\anchor.png");
         ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
     }
+
+    @FXML
+    protected  void onExit()
+    {
+        Platform.exit();
+        System.exit(0);
+    }
+
 
     @FXML
     protected void openFile() throws FileNotFoundException {
@@ -347,6 +360,36 @@ public class test implements Initializable {
     }
 
     @FXML
+    protected  void crop()
+    {
+       
+        Rectangle2D rectangle2D = new Rectangle2D(x,y,width,height);
+        imageView.setViewport(rectangle2D);
+    }
+
+    @FXML
+    protected  void areaSelection() {
+        imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                x= (int) event.getX();
+                y = (int) event.getY();
+//                System.out.println("X: " + event.getX() + " Y: " + event.getY());
+
+            }
+        });
+
+        imageView.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                 width= (int) (event.getX() - x);
+                height = (int) (event.getY() - y);
+//                System.out.println("X: " + (event.getX() - x) + " Y: " + (event.getY() - y));
+            }
+        });
+
+    }
+    @FXML
     protected void cropButtonPressed() {
         System.out.println("Crop Button Pressed");
         Double orgWidth = imageView.getFitWidth();
@@ -450,7 +493,7 @@ public class test implements Initializable {
     @FXML
     public void colorFiller()
     {
-        final Canvas canvas =new Canvas(250,250);
+        final Canvas canvas =new Canvas(800,850);
         GraphicsContext g;
         g = canvas.getGraphicsContext2D();
         canvas.setOnMouseDragged(e->{
@@ -467,6 +510,7 @@ public class test implements Initializable {
             }
         });
     }
+
 
 
 

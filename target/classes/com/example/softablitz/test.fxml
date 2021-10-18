@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.test">
+<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.test">
     <children>
         <AnchorPane prefHeight="650.0" prefWidth="1280.0">
             <children>
@@ -18,7 +27,7 @@
                                 <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
                                 <MenuItem mnemonicParsing="false" onAction="#fileButtonClicked" text="Save" />
                                 <MenuItem mnemonicParsing="false" text="Save as" />
-                                <MenuItem mnemonicParsing="false" text="Exit" />
+                                <MenuItem mnemonicParsing="false" onAction="#onExit" text="Exit" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Collage">
@@ -250,6 +259,8 @@
                     <Button layoutX="107.0" layoutY="146.0" mnemonicParsing="false" onAction="#colorFiller" text="colortext" />
                     <Button layoutX="34.0" layoutY="401.0" mnemonicParsing="false" onAction="#zoomIn" text="ZoomIn" />
                     <Button layoutX="124.0" layoutY="401.0" mnemonicParsing="false" onAction="#zoomOut" text="ZoomOut" />
+               <Button layoutX="88.0" layoutY="462.0" mnemonicParsing="false" onAction="#crop" text="crop" />
+               <Button fx:id="selectArea" layoutX="88.0" layoutY="521.0" mnemonicParsing="false" onAction="#areaSelection" text="select" />
                 </AnchorPane>
             </children>
         </AnchorPane>
