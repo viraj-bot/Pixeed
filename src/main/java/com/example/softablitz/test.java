@@ -13,7 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
-import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -68,6 +68,9 @@ public class test implements Initializable {
     private ColorPicker colorPicker;
     @FXML
     private int x,y,height,width;
+    @FXML
+    private Canvas canvas;
+
 
 
 
@@ -102,12 +105,12 @@ public class test implements Initializable {
             Image image = new Image((new FileInputStream(x)));
             imageView1.setImage(image);
             double ratio = Math.min((double) imageViewPane.getHeight() / image.getHeight(), (double) imageViewPane.getWidth() / image.getWidth());
-            imageView1.setFitWidth(image.getWidth() * ratio);
+            imageView1. setFitWidth(image.getWidth() * ratio);
             imageView1.setFitHeight(image.getHeight() * ratio);
             double wid = imageView1.getFitWidth();
             double hig = imageView1.getFitHeight();
             imageView1.setLayoutX((imageViewPane.getWidth() - wid) / 2 - padding);
-            imageView1.setLayoutY((imageViewPane.getHeight() - hig) / 2 - padding);
+            imageView1.setLayoutY((imageViewPane.getHeight() - hig)/ 2 - padding);
             imageViewPane.getChildren().add(imageView1);
             imageView =  imageView1;
         } else {
@@ -362,7 +365,7 @@ public class test implements Initializable {
     @FXML
     protected  void crop()
     {
-       
+
         Rectangle2D rectangle2D = new Rectangle2D(x,y,width,height);
         imageView.setViewport(rectangle2D);
     }
@@ -384,11 +387,18 @@ public class test implements Initializable {
             public void handle(MouseEvent event) {
                  width= (int) (event.getX() - x);
                 height = (int) (event.getY() - y);
+                crop();
 //                System.out.println("X: " + (event.getX() - x) + " Y: " + (event.getY() - y));
             }
         });
 
     }
+    @FXML
+    protected void filter()
+    {
+        imageView.setEffect(new DropShadow());
+    }
+
     @FXML
     protected void cropButtonPressed() {
         System.out.println("Crop Button Pressed");
@@ -477,25 +487,28 @@ public class test implements Initializable {
 
     @FXML
     protected void flipVertical() {
-        Translate flipTranslation = new Translate(0, imageView.getImage().getHeight());
+        Translate flipTranslation = new Translate(0, imageViewPane.getHeight());
         Rotate flipRotation = new Rotate(180, Rotate.X_AXIS);
-        imageView.getTransforms().addAll(flipTranslation, flipRotation);
+        imageViewPane.getTransforms().addAll(flipTranslation, flipRotation);
     }
 
     @FXML
     protected void flipHorizontal() {
-        Translate flipTranslation = new Translate(imageView.getImage().getWidth(),0);
+        Translate flipTranslation = new Translate(imageViewPane.getWidth(),0);
         Rotate flipRotation = new Rotate(180, Rotate.Y_AXIS);
-        imageView.getTransforms().addAll(flipTranslation, flipRotation);
+        imageViewPane.getTransforms().addAll(flipTranslation, flipRotation);
     }
 
 
     @FXML
     public void colorFiller()
     {
-        final Canvas canvas =new Canvas(800,850);
         GraphicsContext g;
         g = canvas.getGraphicsContext2D();
+        g.drawImage(imageView.getImage(),0,0);
+        imageView.setFitHeight(0);
+        imageView.setFitWidth(0);
+//       canvas.setBlendMode(new Blend());
         canvas.setOnMouseDragged(e->{
             double size= Double.parseDouble(brushSize.getText());
             double x= e.getX()-size/2;
