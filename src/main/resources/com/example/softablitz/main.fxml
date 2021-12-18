@@ -72,7 +72,7 @@
                                         <graphic>
                                             <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                                 <image>
-                                                    <Image url="@icons/3vertical%20(2).jpg" />
+                                                    <Image url="@icons/3vertical.jpg" />
                                                 </image>
                                             </ImageView>
                                         </graphic>
@@ -92,11 +92,6 @@
                                     </MenuItem>
                                 </items>
                             </Menu>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Delete" />
-                            </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Frames">
                             <items>
@@ -156,6 +151,85 @@
                                 </MenuItem>
                             </items>
                         </Menu>
+                  <Menu mnemonicParsing="false" text="Filters">
+                     <items>
+                        <Menu mnemonicParsing="false" text="Rain">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#SETRAIN1">
+                                 <graphic>
+                                    <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/rain1.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem mnemonicParsing="false" onAction="#SETRAIN2">
+                                 <graphic>
+                                    <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/rain2.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem mnemonicParsing="false" onAction="#SETRAIN3">
+                                 <graphic>
+                                    <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/rain3.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                           </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Sunshine">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#HORIZONTOLTRIPLE">
+                                 <graphic>
+                                    <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/sunshine1.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem mnemonicParsing="false" onAction="#VERTICALTRIPLE">
+                                 <graphic>
+                                    <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/3vertical.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                           </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Smooth">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#QUAD">
+                                 <graphic>
+                                    <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/smooth1.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                              <MenuItem mnemonicParsing="false" onAction="#QUAD">
+                                 <graphic>
+                                    <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/smooth2.jpg" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </MenuItem>
+                           </items>
+                        </Menu>
+                     </items>
+                  </Menu>
                     </menus>
                 </MenuBar>
                 <AnchorPane prefHeight="623.0" prefWidth="211.0" styleClass="grey-color" AnchorPane.bottomAnchor="-1.0" AnchorPane.rightAnchor="-4.0">

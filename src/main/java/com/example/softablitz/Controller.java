@@ -1,4 +1,5 @@
 package com.example.softablitz;
+
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
@@ -23,6 +24,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -290,7 +292,7 @@ public class Controller implements Initializable {
 
     @FXML
     protected void rotate180() {
-       activeImageView.setRotate((180 + activeImageView.getRotate()));
+        activeImageView.setRotate((180 + activeImageView.getRotate()));
     }
 
     @FXML
@@ -562,6 +564,24 @@ public class Controller implements Initializable {
         starty = 10;
         anchorPane = new AnchorPane();
         addCollageFrame(anchorPane, startx, starty, width, height);
+    }
+
+    @FXML
+    protected void SETRAIN1() throws FileNotFoundException {
+        Filters filters = new Filters();
+        filters.setRain1Filter(imageViewPane);
+    }
+
+    @FXML
+    protected void SETRAIN2() throws FileNotFoundException {
+        Filters filters = new Filters();
+        filters.setRain2Filter(imageViewPane);
+    }
+
+    @FXML
+    protected void SETRAIN3() throws FileNotFoundException {
+        Filters filters = new Filters();
+        filters.setRain3Filter(imageViewPane);
     }
 
 }
