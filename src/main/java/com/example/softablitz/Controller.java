@@ -1,19 +1,18 @@
 package com.example.softablitz;
-
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-
+import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-
-import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,26 +20,19 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-
-import javafx.embed.swing.SwingFXUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import javax.imageio.ImageIO;
-
-import javafx.geometry.Rectangle2D;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 public class Controller implements Initializable {
     @FXML
@@ -60,9 +52,13 @@ public class Controller implements Initializable {
     private ImageView activeImageView;
     private ImageView imageView;
     private List<File> list;
+    private Stack<ObservableList<Node>> stk;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        stk = new Stack<>();
+
         TEXTPANE.setVisible(false);
     }
 
@@ -90,6 +86,7 @@ public class Controller implements Initializable {
         imageView.setImage(image);
         centerFrameImage(imageView, imageViewPane);
         handleZoom(imageView);
+        stk.push(imageViewPane.getChildren());
         imageView.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -116,6 +113,8 @@ public class Controller implements Initializable {
 //                imageView.setLayoutX(imageView.getLayoutX() + layoutx[0] - mouseDragEvent.getSceneX());
 //                imageView.setLayoutX(imageView.getLayoutX() + layouty[0] - mouseDragEvent.getSceneY());
             }
+
+            ;
         });
 
     }
@@ -152,92 +151,7 @@ public class Controller implements Initializable {
     @FXML
     protected void cropButtonPressed() {
 
-        if (activeImageView == null)
-            return;
-        Slider left = new Slider();
-        Slider right = new Slider();
-        Slider up = new Slider();
-        Slider down = new Slider();
-
-        left.setLayoutX(activeImageView.getLayoutX() - 10);
-        left.setLayoutY(activeImageView.getLayoutY() - 10);
-        up.setLayoutX(activeImageView.getLayoutX() - 10);
-        up.setLayoutY(activeImageView.getLayoutY() + 5);
-        down.setLayoutX(activeImageView.getLayoutX() - 10);
-        down.setLayoutY(activeImageView.getLayoutY() + activeImageView.getFitHeight() - 10);
-        right.setLayoutX(activeImageView.getLayoutX() + activeImageView.getFitWidth() - 10);
-        right.setLayoutY(activeImageView.getLayoutY() - 10);
-
-        down.setRotate(180);
-        right.setRotate(180);
-
-        left.setOrientation(Orientation.VERTICAL);
-        right.setOrientation(Orientation.VERTICAL);
-
-        down.setPrefWidth(activeImageView.getFitWidth() + 10);
-        up.setPrefWidth(activeImageView.getFitWidth() + 10);
-        left.setPrefHeight(activeImageView.getFitHeight() + 10);
-        right.setPrefHeight(activeImageView.getFitHeight() + 10);
-
-        imageViewPane.getChildren().add(left);
-        imageViewPane.getChildren().add(right);
-        imageViewPane.getChildren().add(up);
-        imageViewPane.getChildren().add(down);
-        final double[] bottomLeftY = {left.getPrefHeight()};
-        final double[] upperLeftX = {left.getLayoutX()};
-        final double[] upprightX = {up.getPrefWidth()};
-        double widRatio = activeImageView.getImage().getWidth() / activeImageView.getFitWidth();
-        double higRatio = activeImageView.getImage().getHeight() / activeImageView.getFitHeight();
-        left.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                left.setLayoutX(mouseEvent.getSceneX());
-                up.setPrefWidth(upprightX[0] - mouseEvent.getSceneX());
-                down.setPrefWidth(upprightX[0] - mouseEvent.getSceneX());
-                up.setLayoutX(mouseEvent.getSceneX());
-                System.out.println(activeImageView.getLayoutX() + " " + activeImageView.getLayoutY() + " " + (right.getLayoutX() - up.getLayoutX()) * widRatio + " " + activeImageView.getImage().getHeight());
-                Rectangle2D rectangle2D = new Rectangle2D(mouseEvent.getSceneX() * widRatio, activeImageView.getLayoutY(), (right.getLayoutX() - up.getLayoutX()) * widRatio, activeImageView.getImage().getHeight());
-                activeImageView.setPreserveRatio(true);
-                activeImageView.setLayoutX(left.getLayoutX() + 10);
-                activeImageView.setViewport(rectangle2D);
-                down.setLayoutX(mouseEvent.getSceneX());
-                upperLeftX[0] = mouseEvent.getSceneX();
-            }
-        });
-        up.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                up.setLayoutY(mouseEvent.getSceneY());
-                left.setPrefHeight(bottomLeftY[0] - mouseEvent.getSceneY());
-                right.setPrefHeight(bottomLeftY[0] - mouseEvent.getSceneY());
-                left.setLayoutY(mouseEvent.getSceneY());
-                right.setLayoutY(mouseEvent.getSceneY());
-                Rectangle2D rectangle2D = new Rectangle2D(mouseEvent.getSceneX() * higRatio, activeImageView.getLayoutY(), activeImageView.getImage().getWidth(), (down.getLayoutY() - up.getLayoutY()) * higRatio);
-                activeImageView.setPreserveRatio(true);
-                activeImageView.setLayoutY(left.getLayoutY() + 10);
-                activeImageView.setViewport(rectangle2D);
-
-            }
-        });
-        down.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                down.setLayoutY(mouseEvent.getSceneY() - 10);
-                left.setPrefHeight(mouseEvent.getSceneY() - left.getLayoutY());
-                right.setPrefHeight(mouseEvent.getSceneY() - right.getLayoutY());
-                bottomLeftY[0] = mouseEvent.getSceneY();
-            }
-        });
-        right.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                right.setLayoutX(mouseEvent.getSceneX() - 10);
-                up.setPrefWidth(mouseEvent.getSceneX() - up.getLayoutX());
-                down.setPrefWidth(mouseEvent.getSceneX() - down.getLayoutX());
-                upprightX[0] = mouseEvent.getSceneX();
-
-            }
-        });
+//      2
 
 //        bottomToUpCrop.valueProperty().addListener(new InvalidationListener() {
 //            @Override
@@ -317,6 +231,7 @@ public class Controller implements Initializable {
                 text.setFont(new Font(FONTADJUST.getValue()));
             }
         });
+        stk.push(imageViewPane.getChildren());
     }
 
     public double centerFrameImage(ImageView imageView, AnchorPane anchorPane) {
@@ -331,6 +246,7 @@ public class Controller implements Initializable {
         imageView.setLayoutY((anchorPane.getHeight() - hig) / 2 - padding);
         anchorPane.getChildren().add(imageView);
         return ratio;
+
     }
 
 
@@ -341,14 +257,14 @@ public class Controller implements Initializable {
             @Override
             public void invalidated(Observable observable) {
                 colorAdjust.setBrightness(brightness.getValue() / 100);
-                imageView.setEffect(colorAdjust);
+                activeImageView.setEffect(colorAdjust);
             }
         });
         contrast.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 colorAdjust.setContrast(contrast.getValue() / 100);
-                imageView.setEffect(colorAdjust);
+                activeImageView.setEffect(colorAdjust);
             }
         });
         hue.valueProperty().addListener(new InvalidationListener() {
@@ -369,12 +285,22 @@ public class Controller implements Initializable {
 
     @FXML
     protected void rotate90() {
-        imageView.setRotate((90 + imageView.getRotate()));
+        activeImageView.setRotate((90 + activeImageView.getRotate()));
     }
 
     @FXML
     protected void rotate180() {
-        imageView.setRotate((180 + imageView.getRotate()));
+       activeImageView.setRotate((180 + activeImageView.getRotate()));
+    }
+
+    @FXML
+    protected void undoButtonPressed() {
+        if (!stk.empty()) {
+            imageViewPane.getChildren().setAll(stk.peek());
+            stk.pop();
+        } else {
+            System.out.println("Empty");
+        }
     }
 
 
@@ -388,6 +314,7 @@ public class Controller implements Initializable {
         System.out.println(imageView.getLayoutX() + " " + imageView.getLayoutY() + " " + imageView.getFitWidth() + " " + imageView.getFitHeight());
         System.out.println(ratio * 1770 + " " + 1355 * ratio + " " + 745 * ratio + " " + 1090 * ratio);
         addCollageFrame(anchorPane, ratio * 1770 + imageView.getLayoutX(), 1355 * ratio + imageView.getLayoutY(), 745 * ratio, 1090 * ratio);
+        stk.push(imageViewPane.getChildren());
     }
 
     @FXML
@@ -400,6 +327,7 @@ public class Controller implements Initializable {
         System.out.println(imageView.getLayoutX() + " " + imageView.getLayoutY() + " " + imageView.getFitWidth() + " " + imageView.getFitHeight());
         System.out.println(ratio * 1770 + " " + 1355 * ratio + " " + 745 * ratio + " " + 1090 * ratio);
         addCollageFrame(anchorPane, ratio * 315 + imageView.getLayoutX(), 80 * ratio + imageView.getLayoutY(), 425 * ratio, 595 * ratio);
+        stk.push(imageViewPane.getChildren());
 
     }
 
@@ -414,6 +342,7 @@ public class Controller implements Initializable {
         System.out.println(imageView.getLayoutX() + " " + imageView.getLayoutY() + " " + imageView.getFitWidth() + " " + imageView.getFitHeight());
         System.out.println(ratio * 1770 + " " + 1355 * ratio + " " + 745 * ratio + " " + 1090 * ratio);
         addCollageFrame(anchorPane, ratio * 125 + imageView.getLayoutX(), 110 * ratio + imageView.getLayoutY(), 545 * ratio, 350 * ratio);
+        stk.push(imageViewPane.getChildren());
     }
 
 
@@ -427,6 +356,7 @@ public class Controller implements Initializable {
         System.out.println(imageView.getLayoutX() + " " + imageView.getLayoutY() + " " + imageView.getFitWidth() + " " + imageView.getFitHeight());
         System.out.println(ratio * 1770 + " " + 1355 * ratio + " " + 745 * ratio + " " + 1090 * ratio);
         addCollageFrame(anchorPane, ratio * 300 + imageView.getLayoutX(), 330 * ratio + imageView.getLayoutY(), 1320 * ratio, 800 * ratio);
+        stk.push(imageViewPane.getChildren());
     }
 
 
@@ -440,8 +370,9 @@ public class Controller implements Initializable {
         System.out.println(imageView.getLayoutX() + " " + imageView.getLayoutY() + " " + imageView.getFitWidth() + " " + imageView.getFitHeight());
         System.out.println(ratio * 1080 + " " + 605 * ratio + " " + 5055 * ratio + " " + 1925 * ratio);
         addCollageFrame(anchorPane, ratio * 1800 + imageView.getLayoutX(), 605 * ratio + imageView.getLayoutY(), 1380 * ratio, 1925 * ratio);
-
+        stk.push(imageViewPane.getChildren());
     }
+
     // frame1 : 1770 1355 , 2515  2445
 // frame3 : 125 110  , 670 460
 // frame4 : 300 330  , 1620 1130
@@ -460,6 +391,7 @@ public class Controller implements Initializable {
         System.out.println(ratio * 1770 + " " + 1355 * ratio + " " + 745 * ratio + " " + 1090 * ratio);
         addCollageFrame(anchorPane, ratio * 1650 + imageView.getLayoutX(), 945 * ratio + imageView.getLayoutY(), 1130 * ratio, 1865 * ratio);
         imageViewPane.toFront();
+        stk.push(imageViewPane.getChildren());
     }
 
     protected void addCollageFrame(AnchorPane anchorPane, double startx, double starty, double width, double height) throws FileNotFoundException {
@@ -527,8 +459,8 @@ public class Controller implements Initializable {
         button.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                button.setLayoutX(mouseEvent.getSceneX()-410);
-                button.setLayoutY(mouseEvent.getSceneY()-150);
+                button.setLayoutX(mouseEvent.getSceneX() - 410);
+                button.setLayoutY(mouseEvent.getSceneY() - 150);
 //                System.out.println(mouseEvent.getSceneX() + " " + mouseEvent.getSceneY() + " " + mouseEvent.getScreenX() + " " + mouseEvent.getScreenY());
                 if (mouseEvent.getSceneX() <= anchorPane.getPrefWidth()) {
                     imageView.setFitWidth(mouseEvent.getSceneX());
@@ -546,7 +478,6 @@ public class Controller implements Initializable {
         double wid = imageView.getFitWidth();
         imageView.setLayoutX((anchorPane.getPrefWidth() - wid) / 2);
         imageView.setLayoutY((anchorPane.getPrefHeight() - hig) / 2);
-//        System.out.println(anchorPane.getPrefWidth() + " " + wid / 2);
     }
 
     @FXML
