@@ -1,5 +1,6 @@
 package com.example.softablitz;
 
+
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -7,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,29 +22,42 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import javafx.stage.FileChooser;
-import javafx.scene.canvas.*;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-
 import javafx.embed.swing.SwingFXUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.awt.font.ImageGraphicAttribute;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import javafx.geometry.Rectangle2D;
-import javafx.stage.Stage;
+import org.opencv.core.*;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.CascadeClassifier;
 
-import java.io.IOException;
+
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.MatOfRect;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Size;
+
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static org.opencv.core.Core.bitwise_not;
+import static org.opencv.core.Core.bitwise_or;
+import static org.opencv.imgproc.Imgproc.*;
+
 
 public class test implements Initializable {
 
@@ -67,14 +82,12 @@ public class test implements Initializable {
     @FXML
     private ColorPicker colorPicker;
     @FXML
-    private int x,y,height,width;
+    private int x, y, height, width;
     @FXML
     private Canvas canvas;
-
-
-
-
-
+    Stack<AnchorPane> stk;
+    private File file;
+    private Size size;
 
     @FXML
     protected void fileButtonClicked() throws IOException {
@@ -84,15 +97,14 @@ public class test implements Initializable {
     }
 
     @FXML
-    protected  void onExit()
-    {
+    protected void onExit() {
         Platform.exit();
         System.exit(0);
     }
 
-
     @FXML
     protected void openFile() throws FileNotFoundException {
+        imageViewPane.getChildren().removeAll();
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select files", "*.jpg", "*.png", "*.jpeg", "*.jfif");
         fileChooser.getExtensionFilters().add(filter);
@@ -100,19 +112,19 @@ public class test implements Initializable {
         List<File> list = fileChooser.showOpenMultipleDialog(null);
         if (list.size() == 1) {
             File x = list.get(0);
-
+            file = x;
             ImageView imageView1 = new ImageView();
             Image image = new Image((new FileInputStream(x)));
             imageView1.setImage(image);
             double ratio = Math.min((double) imageViewPane.getHeight() / image.getHeight(), (double) imageViewPane.getWidth() / image.getWidth());
-            imageView1. setFitWidth(image.getWidth() * ratio);
+            imageView1.setFitWidth(image.getWidth() * ratio);
             imageView1.setFitHeight(image.getHeight() * ratio);
             double wid = imageView1.getFitWidth();
             double hig = imageView1.getFitHeight();
             imageView1.setLayoutX((imageViewPane.getWidth() - wid) / 2 - padding);
-            imageView1.setLayoutY((imageViewPane.getHeight() - hig)/ 2 - padding);
+            imageView1.setLayoutY((imageViewPane.getHeight() - hig) / 2 - padding);
             imageViewPane.getChildren().add(imageView1);
-            imageView =  imageView1;
+            imageView = imageView1;
         } else {
             double startx = 0;
             double starty = 0;
@@ -186,30 +198,24 @@ public class test implements Initializable {
         });
 
     }
+
     @FXML
 
     protected void zoomIn() {
         imageView.maxWidth(100);
         imageView.maxHeight(100);
-
         double finalZoomFactor = 1.05;
-
         imageView.setScaleX(imageView.getScaleX() * finalZoomFactor);
         imageView.setScaleY(imageView.getScaleY() * finalZoomFactor);
-
-
     }
+
     @FXML
     protected void zoomOut() {
         imageView.maxWidth(100);
         imageView.maxHeight(100);
-
         double finalZoomFactor = 0.95;
-
         imageView.setScaleX(imageView.getScaleX() * finalZoomFactor);
         imageView.setScaleY(imageView.getScaleY() * finalZoomFactor);
-
-
     }
 
     public void centerImage(ImageView imageView, AnchorPane anchorPane) {
@@ -324,6 +330,7 @@ public class test implements Initializable {
         anchorPane = new AnchorPane();
         addCollageFrame(anchorPane, startx, starty, width, height);
     }
+
     @FXML
     protected void VERTICALTRIPLE() throws FileNotFoundException {
         imageViewPane.getChildren().clear();
@@ -340,6 +347,7 @@ public class test implements Initializable {
         anchorPane = new AnchorPane();
         addCollageFrame(anchorPane, startx, starty, width, height);
     }
+
     @FXML
     protected void QUAD() throws FileNotFoundException {
         imageViewPane.getChildren().clear();
@@ -363,19 +371,18 @@ public class test implements Initializable {
     }
 
     @FXML
-    protected  void crop()
-    {
+    protected void crop() {
 
-        Rectangle2D rectangle2D = new Rectangle2D(x,y,width,height);
+        Rectangle2D rectangle2D = new Rectangle2D(x, y, width, height);
         imageView.setViewport(rectangle2D);
     }
 
     @FXML
-    protected  void areaSelection() {
+    protected void areaSelection() {
         imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                x= (int) event.getX();
+                x = (int) event.getX();
                 y = (int) event.getY();
 //                System.out.println("X: " + event.getX() + " Y: " + event.getY());
 
@@ -385,7 +392,7 @@ public class test implements Initializable {
         imageView.setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                 width= (int) (event.getX() - x);
+                width = (int) (event.getX() - x);
                 height = (int) (event.getY() - y);
                 crop();
 //                System.out.println("X: " + (event.getX() - x) + " Y: " + (event.getY() - y));
@@ -393,9 +400,9 @@ public class test implements Initializable {
         });
 
     }
+
     @FXML
-    protected void filter()
-    {
+    protected void filter() {
         imageView.setEffect(new DropShadow());
     }
 
@@ -434,9 +441,13 @@ public class test implements Initializable {
     }
 
 
+    Imgcodecs imgCodecs;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        stk = new Stack<>();
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        imgCodecs = new Imgcodecs();
     }
 
     @FXML
@@ -474,16 +485,17 @@ public class test implements Initializable {
 
     @FXML
     protected void rotate90() {
-
+        AnchorPane anchorPane = new AnchorPane(imageViewPane);
+        stk.add(anchorPane);
         imageView.setRotate((90 + imageView.getRotate()));
     }
 
     @FXML
     protected void rotate180() {
-
+        AnchorPane anchorPane = new AnchorPane(imageViewPane);
+        stk.add(anchorPane);
         imageView.setRotate((180 + imageView.getRotate()));
     }
-
 
     @FXML
     protected void flipVertical() {
@@ -494,38 +506,123 @@ public class test implements Initializable {
 
     @FXML
     protected void flipHorizontal() {
-        Translate flipTranslation = new Translate(imageViewPane.getWidth(),0);
+        Translate flipTranslation = new Translate(imageView.getFitWidth(), 0);
         Rotate flipRotation = new Rotate(180, Rotate.Y_AXIS);
-        imageViewPane.getTransforms().addAll(flipTranslation, flipRotation);
+        imageView.getTransforms().addAll(flipTranslation, flipRotation);
     }
-
 
     @FXML
-    public void colorFiller()
-    {
+    public void colorFiller() {
         GraphicsContext g;
+        canvas = new Canvas(imageViewPane.getWidth(), imageViewPane.getHeight());
         g = canvas.getGraphicsContext2D();
-        g.drawImage(imageView.getImage(),0,0);
-        imageView.setFitHeight(0);
-        imageView.setFitWidth(0);
-//       canvas.setBlendMode(new Blend());
-        canvas.setOnMouseDragged(e->{
-            double size= Double.parseDouble(brushSize.getText());
-            double x= e.getX()-size/2;
-            double y= e.getY()-size/2;
+        g.drawImage(imageView.getImage(), imageView.getFitWidth(), imageView.getFitHeight());
+        canvas.setOnMouseDragged(e -> {
+            double size = Double.parseDouble(brushSize.getText());
+            double x = e.getX() - size / 2;
+            double y = e.getY() - size / 2;
 
-            if(eraser.isSelected())
-            {g.clearRect(x,y,size,size);
-            }
-            else
-            {  g.setFill(colorPicker.getValue());
-                g.fillRect(x,y,size,size);
+            if (eraser.isSelected()) {
+                g.clearRect(x, y, size, size);
+            } else {
+                g.setFill(colorPicker.getValue());
+                g.fillOval(x, y, size, size);
             }
         });
+        imageViewPane.getChildren().add(canvas);
     }
 
+    @FXML
+    protected void undoAction() {
+//        if (stk.empty()) {
+//            System.out.println("Cannot do undo");
+//            return;
+//        }
+//        System.out.println(stk.size());
+//        for (Node e : imageViewPane.getChildren()) {
+//            System.out.println(e);
+//        }
+//        for (Node e : stk.peek().getChildren()) {
+//            System.out.println(e);
+//        }
+//        imageViewPane = stk.peek();
+//        stk.pop();
+        imageView.setSmooth(true);
+    }
+
+    @FXML
+    protected void redEyeCorrection() throws InterruptedException {
+        Mat matrix = imgCodecs.imread(file.getAbsolutePath(), imgCodecs.IMREAD_COLOR);
+        Mat imgOut = matrix.clone();
+        CascadeClassifier cascadeClassifier = new CascadeClassifier("E:\\InstalledSoftwares\\openCV\\opencv\\sources\\data\\haarcascades\\haarcascade_eye.xml");
+        MatOfRect eyes = new MatOfRect();
+        Size size = new Size(100, 100);
+        cascadeClassifier.detectMultiScale(matrix, eyes, 1.3, 4, 0, size);
+        Rect[] eyesArray = eyes.toArray();
+        for (int i = 0; i < eyesArray.length; i++) {
+            Rect rct = eyesArray[i];
+            Mat eye = matrix.submat(rct);
+            ArrayList<Mat> bgr = new ArrayList<>(3);
+            Core.split(eye, bgr);
+            Mat bg = new Mat();
+            Core.add(bgr.get(0), bgr.get(1), bg);
+            Mat r = bgr.get(2);
+            Scalar scalar = new Scalar(150);
+            Mat submask = new Mat();
+            Core.compare(r, scalar, submask, Core.CMP_GT);
+            Mat submask2 = new Mat();
+            Core.compare(r, bg, submask2, Core.CMP_GT);
+            Mat mask = new Mat();
+            Core.bitwise_and(submask, submask2, mask);
+
+            fillHoles(mask);
+//            Imgproc.dilate(mask, mask, new Mat()  , new Point(-1, -1), 3, 1, new Scalar(1));
+//            
+
+            Mat mean = new Mat();
+            Core.divide(bg, new Scalar(2), mean);
+            mean.copyTo(bgr.get(2), mask);
+            mean.copyTo(bgr.get(0), mask);
+            mean.copyTo(bgr.get(1), mask);
+            Mat eyeout = new Mat();
+            eyeout = eye.clone();
+            Core.merge(bgr, eyeout);
+            eyeout.copyTo(imgOut.submat(eyesArray[i]));
+        }
+        showResult(imgOut);
+        System.out.println("End");
+    }
+
+    void fillHoles(Mat mask) {
+        Mat maskFloodfill = mask.clone();
+        Size size = new Size(mask.rows() + 2, mask.cols() + 2);
+        Mat maskTemp = new Mat(size, maskFloodfill.type());
+        floodFill(maskFloodfill, maskTemp, new Point(0, 0), new Scalar(255));
+        Mat mask2 = new Mat(maskFloodfill.size(), maskFloodfill.type());
+        Core.bitwise_not(maskFloodfill, mask2);
+        Core.bitwise_or(mask2, mask, mask);
+//        Rectangle2D rectangle2D = new Rectangle2D()
 
 
 
+    }
 
+    public static void showResult(Mat img) {
+        Imgproc.resize(img, img, new Size(640, 480));
+        MatOfByte matOfByte = new MatOfByte();
+        Imgcodecs.imencode(".jpg", img, matOfByte);
+        byte[] byteArray = matOfByte.toArray();
+        BufferedImage bufImage = null;
+        try {
+            InputStream in = new ByteArrayInputStream(byteArray);
+            bufImage = ImageIO.read(in);
+            JFrame frame = new JFrame();
+            frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            frame.getContentPane().add(new JLabel(new ImageIcon(bufImage)));
+            frame.pack();
+            frame.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

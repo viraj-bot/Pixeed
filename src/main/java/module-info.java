@@ -4,6 +4,7 @@ module com.example.softablitz {
     requires javafx.graphics;
     requires java.desktop;
     requires javafx.swing;
+    requires opencv;
     opens com.example.softablitz to javafx.fxml;
     exports com.example.softablitz;
 }
