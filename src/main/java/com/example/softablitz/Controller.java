@@ -584,5 +584,47 @@ public class Controller implements Initializable {
         filters.setRain3Filter(imageViewPane);
     }
 
+    @FXML
+    protected void SETSUNSHINE1() throws FileNotFoundException {
+        Filters filters = new Filters();
+        filters.setSunshine1Filter(imageViewPane);
+    }
+
+    @FXML
+    protected void SETSUNSHINE2() throws FileNotFoundException {
+        Filters filters = new Filters();
+        filters.setSunshine2Filter(imageViewPane);
+    }
+
+    @FXML
+    protected void SETSMOOTH() throws FileNotFoundException {
+        Filters filters = new Filters();
+        filters.setSmoothFilter(imageViewPane);
+    }
+
+    @FXML
+    protected void COMPRESS() throws IOException {
+        Compress compress= new Compress();
+        Image image= activeImageView.getImage();
+        compress.compressImage(image);
+
+    }
+
+    @FXML
+    protected void SCALE() throws IOException {
+        Scale scale= new Scale();
+        Image image= activeImageView.getImage();
+        scale.scaleImage(image);
+
+    }
+
+    @FXML
+    protected void SIDEBLUR() throws FileNotFoundException {
+        SideBlur sideBlur =new SideBlur();
+        ImageView imageView= activeImageView;
+       sideBlur.VerticalSideBlur(imageViewPane,imageView);
+
+    }
+
 }
 

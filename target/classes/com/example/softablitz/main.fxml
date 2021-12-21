@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ColorPicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.effect.ColorAdjust?>
-<?import javafx.scene.effect.Glow?>
-<?import javafx.scene.effect.Lighting?>
-<?import javafx.scene.effect.Shadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
+<AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
     <children>
         <AnchorPane prefHeight="650.0" prefWidth="1280.0" style="-fx-background-color: black;">
             <children>
@@ -186,7 +175,7 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Sunshine">
                            <items>
-                              <MenuItem mnemonicParsing="false" onAction="#HORIZONTOLTRIPLE">
+                              <MenuItem mnemonicParsing="false" onAction="#SETSUNSHINE1">
                                  <graphic>
                                     <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -195,7 +184,7 @@
                                     </ImageView>
                                  </graphic>
                               </MenuItem>
-                              <MenuItem mnemonicParsing="false" onAction="#VERTICALTRIPLE">
+                              <MenuItem mnemonicParsing="false" onAction="#SETSUNSHINE2">
                                  <graphic>
                                     <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -208,7 +197,7 @@
                         </Menu>
                         <Menu mnemonicParsing="false" text="Smooth">
                            <items>
-                              <MenuItem mnemonicParsing="false" onAction="#QUAD">
+                              <MenuItem mnemonicParsing="false" onAction="#SETSMOOTH">
                                  <graphic>
                                     <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -217,7 +206,7 @@
                                     </ImageView>
                                  </graphic>
                               </MenuItem>
-                              <MenuItem mnemonicParsing="false" onAction="#QUAD">
+                              <MenuItem mnemonicParsing="false" onAction="#SETSMOOTH">
                                  <graphic>
                                     <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -336,6 +325,9 @@
                                 <TextArea fx:id="FIELD" layoutX="20.0" layoutY="14.0" prefHeight="39.0" prefWidth="163.0" />
                             </children>
                         </AnchorPane>
+                  <Button layoutX="129.0" layoutY="200.0" mnemonicParsing="false" onAction="#COMPRESS" text="compress" />
+                  <Button layoutX="137.0" layoutY="412.0" mnemonicParsing="false" onAction="#SCALE" prefWidth="50.0" text="Scale" />
+                  <Button layoutX="14.0" layoutY="412.0" mnemonicParsing="false" onAction="#SIDEBLUR" text="SideBlur" />
                     </children>
                 </AnchorPane>
             </children>
