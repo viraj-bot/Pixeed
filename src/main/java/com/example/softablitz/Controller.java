@@ -612,9 +612,9 @@ public class Controller implements Initializable {
 
     @FXML
     protected void SCALE() throws IOException {
-        Scale scale= new Scale();
-        Image image= activeImageView.getImage();
-        scale.scaleImage(image);
+//        UpScaleImage scale= new UpScaleImage();
+//        Image image= activeImageView.getImage();
+
 
     }
 

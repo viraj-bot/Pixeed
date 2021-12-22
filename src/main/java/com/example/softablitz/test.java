@@ -29,17 +29,13 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.embed.swing.SwingFXUtils;
 
-import java.awt.font.ImageGraphicAttribute;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
-import javax.swing.*;
+
 
 import javafx.geometry.Rectangle2D;
-import org.opencv.core.*;
+
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.objdetect.CascadeClassifier;
 
 
 import java.net.URL;
@@ -54,8 +50,6 @@ import org.opencv.core.Rect;
 import org.opencv.core.Size;
 
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
-import static org.opencv.core.Core.bitwise_not;
-import static org.opencv.core.Core.bitwise_or;
 import static org.opencv.imgproc.Imgproc.*;
 
 
@@ -87,7 +81,16 @@ public class test implements Initializable {
     private Canvas canvas;
     Stack<AnchorPane> stk;
     private File file;
-    private Size size;
+    @FXML
+    private TextField upscaleTextField;
+    @FXML
+    private Slider alphaSlider;
+    @FXML
+    private Slider betaSlider;
+    @FXML
+    private Slider gammaSlider;
+    @FXML
+    private Slider sigmaxSlider;
 
     @FXML
     protected void fileButtonClicked() throws IOException {
@@ -440,14 +443,11 @@ public class test implements Initializable {
         });
     }
 
-
-    Imgcodecs imgCodecs;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         stk = new Stack<>();
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        imgCodecs = new Imgcodecs();
+
     }
 
     @FXML
@@ -534,95 +534,68 @@ public class test implements Initializable {
 
     @FXML
     protected void undoAction() {
-//        if (stk.empty()) {
-//            System.out.println("Cannot do undo");
-//            return;
-//        }
-//        System.out.println(stk.size());
-//        for (Node e : imageViewPane.getChildren()) {
-//            System.out.println(e);
-//        }
-//        for (Node e : stk.peek().getChildren()) {
-//            System.out.println(e);
-//        }
-//        imageViewPane = stk.peek();
-//        stk.pop();
+        if (stk.empty()) {
+            System.out.println("Cannot do undo");
+            return;
+        }
+        System.out.println(stk.size());
+        for (Node e : imageViewPane.getChildren()) {
+            System.out.println(e);
+        }
+        for (Node e : stk.peek().getChildren()) {
+            System.out.println(e);
+        }
+        imageViewPane = stk.peek();
+        stk.pop();
         imageView.setSmooth(true);
     }
 
     @FXML
     protected void redEyeCorrection() throws InterruptedException {
-        Mat matrix = imgCodecs.imread(file.getAbsolutePath(), imgCodecs.IMREAD_COLOR);
-        Mat imgOut = matrix.clone();
-        CascadeClassifier cascadeClassifier = new CascadeClassifier("E:\\InstalledSoftwares\\openCV\\opencv\\sources\\data\\haarcascades\\haarcascade_eye.xml");
-        MatOfRect eyes = new MatOfRect();
-        Size size = new Size(100, 100);
-        cascadeClassifier.detectMultiScale(matrix, eyes, 1.3, 4, 0, size);
-        Rect[] eyesArray = eyes.toArray();
-        for (int i = 0; i < eyesArray.length; i++) {
-            Rect rct = eyesArray[i];
-            Mat eye = matrix.submat(rct);
-            ArrayList<Mat> bgr = new ArrayList<>(3);
-            Core.split(eye, bgr);
-            Mat bg = new Mat();
-            Core.add(bgr.get(0), bgr.get(1), bg);
-            Mat r = bgr.get(2);
-            Scalar scalar = new Scalar(150);
-            Mat submask = new Mat();
-            Core.compare(r, scalar, submask, Core.CMP_GT);
-            Mat submask2 = new Mat();
-            Core.compare(r, bg, submask2, Core.CMP_GT);
-            Mat mask = new Mat();
-            Core.bitwise_and(submask, submask2, mask);
-
-            fillHoles(mask);
-//            Imgproc.dilate(mask, mask, new Mat()  , new Point(-1, -1), 3, 1, new Scalar(1));
-//            
-
-            Mat mean = new Mat();
-            Core.divide(bg, new Scalar(2), mean);
-            mean.copyTo(bgr.get(2), mask);
-            mean.copyTo(bgr.get(0), mask);
-            mean.copyTo(bgr.get(1), mask);
-            Mat eyeout = new Mat();
-            eyeout = eye.clone();
-            Core.merge(bgr, eyeout);
-            eyeout.copyTo(imgOut.submat(eyesArray[i]));
-        }
-        showResult(imgOut);
-        System.out.println("End");
+        Imgcodecs imgCodecs = new Imgcodecs();
+        RedEyeCorrection redEyeCorrection = new RedEyeCorrection();
+        redEyeCorrection.correctRedEye(file, imgCodecs, imageView);
     }
 
-    void fillHoles(Mat mask) {
-        Mat maskFloodfill = mask.clone();
-        Size size = new Size(mask.rows() + 2, mask.cols() + 2);
-        Mat maskTemp = new Mat(size, maskFloodfill.type());
-        floodFill(maskFloodfill, maskTemp, new Point(0, 0), new Scalar(255));
-        Mat mask2 = new Mat(maskFloodfill.size(), maskFloodfill.type());
-        Core.bitwise_not(maskFloodfill, mask2);
-        Core.bitwise_or(mask2, mask, mask);
-//        Rectangle2D rectangle2D = new Rectangle2D()
-
-
-
+    @FXML
+    protected void UPSCALEIMAGE() throws IOException {
+        UpScaleImage scale = new UpScaleImage();
+        scale.resize(file.getAbsolutePath(), "D:\\output.jpg", Double.parseDouble(upscaleTextField.getText()));
     }
 
-    public static void showResult(Mat img) {
-        Imgproc.resize(img, img, new Size(640, 480));
-        MatOfByte matOfByte = new MatOfByte();
-        Imgcodecs.imencode(".jpg", img, matOfByte);
-        byte[] byteArray = matOfByte.toArray();
-        BufferedImage bufImage = null;
-        try {
-            InputStream in = new ByteArrayInputStream(byteArray);
-            bufImage = ImageIO.read(in);
-            JFrame frame = new JFrame();
-            frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            frame.getContentPane().add(new JLabel(new ImageIcon(bufImage)));
-            frame.pack();
-            frame.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @FXML
+    protected void smoothImage() {
+        Smoothing smoothing = new Smoothing();
+        final double[] apha = {1.5};
+        double beta = -0.5;
+        double gamma = 0;
+        double sigmax = 10;
+        alphaSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                apha[0] = alphaSlider.getValue()%10;
+                smoothing.smoothImage(file, imageView,apha[0],beta,gamma,sigmax);
+            }
+        });
+        betaSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+
+                smoothing.smoothImage(file, imageView, apha[0],betaSlider.getValue()-50,gamma,sigmax);
+            }
+        });
+        gammaSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                smoothing.smoothImage(file, imageView, apha[0],beta,gammaSlider.getValue(),sigmax);
+            }
+        });
+        sigmaxSlider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                smoothing.smoothImage(file, imageView, apha[0],beta,gamma,sigmaxSlider.getValue());
+            }
+        });
     }
+
 }
