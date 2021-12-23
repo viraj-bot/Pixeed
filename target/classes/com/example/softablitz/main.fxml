@@ -5,13 +5,14 @@
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
     <children>
         <AnchorPane prefHeight="650.0" prefWidth="1280.0" style="-fx-background-color: black;">
             <children>
-                <AnchorPane fx:id="imageViewPane" layoutX="5.0" layoutY="33.0" maxHeight="693.0" maxWidth="1073.0" minHeight="381.0" minWidth="-Infinity" prefHeight="612.0" prefWidth="1057.0" />
+                <AnchorPane fx:id="imageViewPane" layoutX="29.0" layoutY="32.0" maxHeight="693.0" maxWidth="1073.0" minHeight="381.0" minWidth="-Infinity" prefHeight="612.0" prefWidth="1057.0" />
                 <MenuBar layoutY="1.0" opacity="0.37" prefHeight="25.0" prefWidth="1280.0" styleClass="grey-color" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
@@ -281,12 +282,12 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <Button layoutX="119.0" layoutY="168.0" mnemonicParsing="false" onAction="#adjustHandle" text="Adjust" />
+                        <Button layoutX="155.0" layoutY="167.0" mnemonicParsing="false" onAction="#adjustHandle" text="Adjust" />
                         <Slider fx:id="brightness" layoutX="16.0" layoutY="234.0" />
                         <Slider fx:id="contrast" layoutX="16.0" layoutY="261.0" />
                         <Slider fx:id="hue" layoutX="15.0" layoutY="289.0" />
                         <Slider fx:id="saturation" layoutX="16.0" layoutY="322.0" />
-                        <Button fx:id="rotate" layoutX="14.0" layoutY="369.0" mnemonicParsing="false" onAction="#rotate90" text="RotateBy90" />
+                        <Button fx:id="rotate" layoutX="14.0" layoutY="369.0" mnemonicParsing="false" onAction="#rotate90" prefWidth="77.0" text="RotateBy90" />
                         <Button fx:id="rotate1" layoutX="102.0" layoutY="369.0" mnemonicParsing="false" onAction="#rotate180" text="RotateBy180" />
                         <JFXButton layoutY="405.0" onAction="#textButtonPressed" prefHeight="39.0" prefWidth="203.0" styleClass="grey-color" text="Text" textAlignment="JUSTIFY" textFill="WHITE">
                             <font>
@@ -307,31 +308,32 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <AnchorPane fx:id="TEXTPANE" layoutY="459.0" prefHeight="144.0" prefWidth="203.0">
-                            <children>
-                                <JFXButton layoutX="73.0" layoutY="132.0" onAction="#ADDBUTTONPRESSED" text="ADD" textFill="WHITE" />
-                                <ColorPicker fx:id="COLORPICKER" layoutY="59.0" prefHeight="25.0" prefWidth="203.0">
-                                    <effect>
-                                        <Lighting diffuseConstant="0.83" specularConstant="0.52">
-                                            <bumpInput>
-                                                <Shadow />
-                                            </bumpInput>
-
-                                        </Lighting>
-                                    </effect>
-                                </ColorPicker>
-                                <Slider fx:id="FONTADJUST" layoutX="76.0" layoutY="107.0" prefHeight="14.0" prefWidth="126.0" />
-                                <Label layoutX="3.0" layoutY="104.0" prefHeight="20.0" prefWidth="61.0" style="-fx-text-fill: white;" text="FONT SIZE" />
-                                <TextArea fx:id="FIELD" layoutX="20.0" layoutY="14.0" prefHeight="39.0" prefWidth="163.0" />
-                            </children>
-                        </AnchorPane>
                   <Button layoutX="129.0" layoutY="200.0" mnemonicParsing="false" onAction="#COMPRESS" text="compress" />
                   <Button layoutX="137.0" layoutY="412.0" mnemonicParsing="false" onAction="#SCALE" prefWidth="50.0" text="Scale" />
                   <Button layoutX="14.0" layoutY="412.0" mnemonicParsing="false" onAction="#SIDEBLUR" text="SideBlur" />
+                  <AnchorPane fx:id="TEXTPANE" layoutX="10.0" layoutY="469.0" prefHeight="144.0" prefWidth="203.0">
+                     <children>
+                        <JFXButton layoutX="73.0" layoutY="132.0" onAction="#ADDBUTTONPRESSED" text="ADD" textFill="WHITE" />
+                        <ColorPicker fx:id="COLORPICKER" layoutY="59.0" prefHeight="25.0" prefWidth="203.0">
+                           <effect>
+                              <Lighting diffuseConstant="0.83" specularConstant="0.52">
+                                 <bumpInput>
+                                    <Shadow />
+                                 </bumpInput>
+                              </Lighting>
+                           </effect>
+                        </ColorPicker>
+                        <Slider fx:id="FONTADJUST1" layoutX="76.0" layoutY="107.0" prefHeight="14.0" prefWidth="126.0" />
+                        <Label layoutX="3.0" layoutY="104.0" prefHeight="20.0" prefWidth="61.0" style="-fx-text-fill: white;" text="FONT SIZE" />
+                        <TextArea fx:id="FIELD" layoutX="20.0" layoutY="14.0" prefHeight="39.0" prefWidth="163.0" />
+                     </children>
+                  </AnchorPane>
+                  <JFXButton layoutX="89.0" layoutY="334.0" onAction="#emojiButtonPressed" text="Emojis" textFill="#fffdfd" />
                     </children>
                 </AnchorPane>
             </children>
         </AnchorPane>
+      <Line endX="100.0" startX="-100.0" />
 
     </children>
 </AnchorPane>

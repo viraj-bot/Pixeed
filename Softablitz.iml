@@ -14,5 +14,21 @@
     <orderEntry type="library" name="javafx-swt" level="project" />
     <orderEntry type="library" name="opencv-454" level="project" />
     <orderEntry type="library" name="javafx-swt1" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://D:/OpenCV/opencv/build/java/opencv-454.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <NATIVE>
+          <root url="file://D:/OpenCV/opencv/build/java/x64" />
+        </NATIVE>
+        <SOURCES>
+          <root url="jar://D:/OpenCV/opencv/build/java/opencv-454.jar!/" />
+          <root url="jar://D:/OpenCV/opencv/build/java/opencv-454.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="jfoenix-9.0.10" level="project" />
   </component>
 </module>

@@ -21,6 +21,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
@@ -29,6 +32,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.embed.swing.SwingFXUtils;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 
@@ -372,35 +376,126 @@ public class test implements Initializable {
         anchorPane = new AnchorPane();
         addCollageFrame(anchorPane, startx, starty, width, height);
     }
+    @FXML
+    private   double mouseDownX;
+     private double mouseDownY;
+    private   double endWidth;
+    private double endHeight;
 
     @FXML
     protected void crop() {
 
-        Rectangle2D rectangle2D = new Rectangle2D(x, y, width, height);
-        imageView.setViewport(rectangle2D);
+//        Rectangle2D rectangle2D = new Rectangle2D(x, y, width, height);
+//        imageView.setViewport(rectangle2D);
+//        BufferedImage bufferedImage =SwingFXUtils.fromFXImage(imageView.getImage(),null);
+//       BufferedImage image = bufferedImage.getSubimage(x,y,width,height);
+//       Image image1= SwingFXUtils.toFXImage(image,null);
+//       imageView.setImage(image1);
+//
+//
+//        imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                x = (int) event.getX();
+//                y = (int) event.getY();
+////                System.out.println("X: " + event.getX() + " Y: " + event.getY());
+//
+//            }
+//        });
+//
+//        imageView.setOnMouseReleased(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//                width = (int) (event.getX() - x);
+//                height = (int) (event.getY() - y);
+//
+////                System.out.println("X: " + (event.getX() - x) + " Y: " + (event.getY() - y));
+//            }
+//        });
+
+        Rectangle selectionRectangle = new Rectangle();
+        selectionRectangle.setStroke(Color.BLACK);
+        selectionRectangle.setFill(Color.TRANSPARENT);
+        selectionRectangle.getStrokeDashArray().addAll(5.0, 5.0);
+
+        imageViewPane.getChildren().add(selectionRectangle);
+
+        imageViewPane.setOnMousePressed(e -> {
+            mouseDownX = e.getX();
+            mouseDownY = e.getY();
+            selectionRectangle.setX(mouseDownX);
+            selectionRectangle.setY(mouseDownY);
+            selectionRectangle.setWidth(0);
+            selectionRectangle.setHeight(0);
+        });
+
+        imageViewPane.setOnMouseDragged(e -> {
+            selectionRectangle.setX(Math.min(e.getX(), mouseDownX));
+            selectionRectangle.setWidth(Math.abs(e.getX() - mouseDownX));
+            selectionRectangle.setY(Math.min(e.getY(), mouseDownY));
+            selectionRectangle.setHeight(Math.abs(e.getY() - mouseDownY));
+        });
+
+        imageViewPane.setOnMouseReleased(e ->{
+
+            endWidth=Math.abs(e.getX()-mouseDownX);
+            endHeight=Math.abs(e.getY()-mouseDownY);
+
+        });
+
+
+
     }
 
     @FXML
     protected void areaSelection() {
-        imageView.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                x = (int) event.getX();
-                y = (int) event.getY();
-//                System.out.println("X: " + event.getX() + " Y: " + event.getY());
+//                Rectangle2D rectangle2D = new Rectangle2D(mouseDownX, mouseDownY, endWidth, endHeight);
+//        imageView.setViewport(rectangle2D);
 
-            }
+//        GaussianBlur gaussianBlur =new GaussianBlur(10);
+//
+//        ImageView imageView2 =imageView;
+//
+//        imageView2.setClip(new Rectangle(mouseDownX,mouseDownY,endWidth,endHeight));
+//        imageView2.setEffect(gaussianBlur);
+//        imageView.setPreserveRatio(true);
+//        imageViewPane.getChildren().add(imageView2);
+
+
+        Ellipse ellipse = new Ellipse();
+        ellipse.setStroke(Color.BLACK);
+        ellipse.setFill(Color.TRANSPARENT);
+        ellipse.getStrokeDashArray().addAll(5.0, 5.0);
+
+        imageViewPane.getChildren().add(ellipse);
+
+        imageViewPane.setOnMousePressed(e -> {
+            mouseDownX = e.getX();
+            mouseDownY = e.getY();
+          ellipse.setCenterX(mouseDownX);
+            ellipse.setCenterY(mouseDownY);
+            ellipse.setRadiusX(0.0);
+            ellipse.setRadiusY(0.0);
         });
 
-        imageView.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                width = (int) (event.getX() - x);
-                height = (int) (event.getY() - y);
-                crop();
-//                System.out.println("X: " + (event.getX() - x) + " Y: " + (event.getY() - y));
-            }
+        imageViewPane.setOnMouseDragged(e -> {
+            ellipse.setCenterX(Math.min(e.getX(),mouseDownX));
+            ellipse.setCenterY(Math.min(e.getY(),mouseDownY));
+            ellipse.setRadiusX(Math.abs(e.getX() - mouseDownX));
+            ellipse.setRadiusY(Math.abs(e.getY() - mouseDownY));
+//            selectionRectangle.setX(Math.min(e.getX(), mouseDownX));
+//            selectionRectangle.setWidth(Math.abs(e.getX() - mouseDownX));
+//            selectionRectangle.setY(Math.min(e.getY(), mouseDownY));
+//            selectionRectangle.setHeight(Math.abs(e.getY() - mouseDownY));
         });
+
+//        imageViewPane.setOnMouseReleased(e ->{
+//
+//            endWidth=Math.abs(e.getX()-mouseDownX);
+//            endHeight=Math.abs(e.getY()-mouseDownY);
+//
+//        });
+
 
     }
 
