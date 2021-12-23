@@ -207,7 +207,6 @@ public class test implements Initializable {
     }
 
     @FXML
-
     protected void zoomIn() {
         imageView.maxWidth(100);
         imageView.maxHeight(100);

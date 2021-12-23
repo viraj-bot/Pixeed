@@ -10,25 +10,36 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jfoenix" level="project" />
     <orderEntry type="library" name="javafx-swt" level="project" />
-    <orderEntry type="library" name="opencv-454" level="project" />
-    <orderEntry type="library" name="javafx-swt1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:17.0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:17.0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:17.0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:17.0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:17.0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:17.0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:17.0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:win:17.0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-api:5.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.8.2" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-engine:1.8.2" level="project" />
+    <orderEntry type="library" name="jfoenix-9.0.101" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://D:/OpenCV/opencv/build/java/opencv-454.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../InstalledSoftwares/openCV/opencv/build/java/opencv-454.jar!/" />
         </CLASSES>
         <JAVADOC />
         <NATIVE>
-          <root url="file://D:/OpenCV/opencv/build/java/x64" />
+          <root url="file://$MODULE_DIR$/../../InstalledSoftwares/openCV/opencv/build/java/x64" />
         </NATIVE>
         <SOURCES>
-          <root url="jar://D:/OpenCV/opencv/build/java/opencv-454.jar!/" />
-          <root url="jar://D:/OpenCV/opencv/build/java/opencv-454.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../InstalledSoftwares/openCV/opencv/build/java/opencv-454.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../InstalledSoftwares/openCV/opencv/build/java/opencv-454.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="jfoenix-9.0.10" level="project" />
   </component>
 </module>

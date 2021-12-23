@@ -1,5 +1,8 @@
 package com.example.softablitz;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXSlider;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.ObservableList;
@@ -10,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
@@ -23,7 +28,11 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.FileChooser;
+import org.opencv.core.Core;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -36,31 +45,32 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
+
 public class Controller implements Initializable {
+
     @FXML
     private Slider topToBottomCrop, leftToRightCrop, rightToLeftCrop, bottomToUpCrop;
     @FXML
     private AnchorPane menuBarPane, imageViewPane;
     @FXML
-    private Slider brightness;
+    private JFXSlider brightness;
     @FXML
-    private Slider contrast;
+    private JFXSlider contrast;
     @FXML
-    private Slider hue;
+    private JFXSlider hue;
     @FXML
-    private Slider saturation;
+    private JFXSlider saturation;
     @FXML
     private TextArea FIELD;
     private ImageView activeImageView;
     private ImageView imageView;
     private List<File> list;
     private Stack<ObservableList<Node>> stk;
-
+    protected File file;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         stk = new Stack<>();
-
         TEXTPANE.setVisible(false);
 
     }
@@ -84,6 +94,7 @@ public class Controller implements Initializable {
         fileChooser.getExtensionFilters().add(filter);
         int padding = 10;
         File x = fileChooser.showOpenMultipleDialog(null).get(0);
+        file = x;
         ImageView imageView = new ImageView();
         Image image = new Image((new FileInputStream(x)));
         imageView.setImage(image);
@@ -104,8 +115,6 @@ public class Controller implements Initializable {
         imageView.setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
             @Override
             public void handle(MouseDragEvent mouseDragEvent) {
-//                layoutx[0] = mouseDragEvent.getSceneX();
-//                layouty[0] = mouseDragEvent.getSceneY();
                 imageView.getScene().setCursor(Cursor.CLOSED_HAND);
             }
         });
@@ -154,8 +163,6 @@ public class Controller implements Initializable {
     @FXML
     protected void cropButtonPressed() {
 
-//      2
-
 //        bottomToUpCrop.valueProperty().addListener(new InvalidationListener() {
 //            @Override
 //            public void invalidated(Observable observable) {
@@ -184,45 +191,12 @@ public class Controller implements Initializable {
 //
 //            }
 //        });
+
     }
-
-
-    @FXML
-    private ImageView emj1;
-    @FXML
-    private AnchorPane EMOJIPANE;
-
-    @FXML
-    private void emojiButtonPressed() {
-//        if (EMOJIPANE.isVisible())
-//            EMOJIPANE.setVisible(false);
-//        else
-//           EMOJIPANE.setVisible(true);
-
-        emj1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                imageViewPane.getChildren().add(emj1);
-            }
-        });
-    }
-    @FXML
-    Slider EMOJISIZEADJUST;
-
-
-
 
     @FXML
     private AnchorPane TEXTPANE;
 
-    @FXML
-    private void textButtonPressed() {
-        if (TEXTPANE.isVisible())
-            TEXTPANE.setVisible(false);
-        else
-            TEXTPANE.setVisible(true);
-
-    }
 
     @FXML
     Slider FONTADJUST;
@@ -278,49 +252,216 @@ public class Controller implements Initializable {
 
     }
 
+    @FXML
+    private AnchorPane adjustPane;
+    @FXML
+    private JFXButton adjustButton;
+    @FXML
+    private JFXButton textButton;
+    @FXML
+    private AnchorPane specialEffectsPane;
+    @FXML
+    private JFXButton specialEffectsButton;
+    @FXML
+    private ColorPicker brushColorPicker;
+    @FXML
+    private JFXToggleButton eraserToggleButton;
+    @FXML
+    private JFXSlider brushSize;
+    @FXML
+    private AnchorPane brushPane;
+    @FXML
+    private JFXButton brushButton;
+
 
     @FXML
-    protected void adjustHandle() {
-        ColorAdjust colorAdjust = new ColorAdjust();
-        brightness.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                colorAdjust.setBrightness(brightness.getValue() / 100);
-                activeImageView.setEffect(colorAdjust);
-            }
-        });
-        contrast.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                colorAdjust.setContrast(contrast.getValue() / 100);
-                activeImageView.setEffect(colorAdjust);
-            }
-        });
-        hue.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                colorAdjust.setHue(hue.getValue() / 100);
-                imageView.setEffect(colorAdjust);
-            }
-        });
-        saturation.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                colorAdjust.setSaturation(saturation.getValue() / 100);
-                imageView.setEffect(colorAdjust);
-            }
-        });
+    protected void resetAdjust() {
+        saturation.setValue(50);
+        contrast.setValue(50);
+        hue.setValue(50);
+        brightness.setValue(50);
+    }
+
+
+    @FXML
+    protected void closeBrushPanel() {
+        brushPane.setVisible(false);
+        brushButton.setVisible(true);
+        specialEffectsButton.setVisible(true);
     }
 
     @FXML
+    protected void closeAdjustPanel() {
+        adjustPane.setVisible(false);
+        adjustButton.setVisible(true);
+        textButton.setVisible(true);
+        brushButton.setVisible(true);
+        specialEffectsButton.setVisible(true);
+    }
+
+    @FXML
+    protected void closeTextPanel() {
+        adjustPane.setVisible(false);
+        adjustButton.setVisible(true);
+        TEXTPANE.setVisible(false);
+        textButton.setVisible(true);
+        brushButton.setVisible(true);
+        specialEffectsButton.setVisible(true);
+    }
+
+    @FXML
+    protected void closeEffectPanel() {
+        specialEffectsPane.setVisible(false);
+        specialEffectsButton.setVisible(true);
+
+    }
+
+    @FXML
+    protected void adjustHandle() {
+        brushPane.setVisible(false);
+        TEXTPANE.setVisible(false);
+        specialEffectsPane.setVisible(false);
+        if (activeImageView == null)
+            return;
+        specialEffectsButton.setVisible(false);
+        textButton.setVisible(false);
+        brushButton.setVisible(false);
+        adjustButton.setVisible(false);
+        adjustPane.setVisible(true);
+        BasicAdjust basicAdjust = new BasicAdjust(brightness, contrast, hue, saturation);
+        basicAdjust.setSliderListener(activeImageView);
+    }
+
+    @FXML
+    private void textButtonPressed() {
+        brushPane.setVisible(false);
+        specialEffectsPane.setVisible(false);
+        if (activeImageView == null)
+            return;
+        specialEffectsButton.setVisible(false);
+        textButton.setVisible(false);
+        brushButton.setVisible(false);
+        TEXTPANE.setVisible(true);
+    }
+
+    @FXML
+    protected void brushButtonPressed() {
+        adjustPane.setVisible(false);
+        TEXTPANE.setVisible(false);
+        textButton.setVisible(true);
+        adjustButton.setVisible(true);
+        specialEffectsPane.setVisible(false);
+        specialEffectsButton.setVisible(true);
+        if (activeImageView == null) {
+            return;
+        }
+        specialEffectsButton.setVisible(false);
+        brushPane.setVisible(true);
+        brushButton.setVisible(false);
+        GraphicsContext g;
+        Canvas canvas = null;
+        canvas = new Canvas(imageViewPane.getWidth(), imageViewPane.getHeight());
+        g = canvas.getGraphicsContext2D();
+        g.drawImage(activeImageView.getImage(), activeImageView.getFitWidth(), activeImageView.getFitHeight());
+        canvas.setOnMouseDragged(e -> {
+            double size = brushSize.getValue();
+            double x = e.getX() - size / 2;
+            double y = e.getY() - size / 2;
+            if (eraserToggleButton.isSelected()) {
+                g.clearRect(x, y, size, size);
+            } else {
+                g.setFill(brushColorPicker.getValue());
+                g.fillOval(x, y, size, size);
+            }
+        });
+        imageViewPane.getChildren().add(canvas);
+    }
+
+    @FXML
+    protected void specialEffectsButtonPressed() {
+        adjustPane.setVisible(false);
+        adjustButton.setVisible(true);
+        TEXTPANE.setVisible(false);
+        adjustButton.setVisible(true);
+        textButton.setVisible(true);
+        brushButton.setVisible(true);
+        if (activeImageView == null)
+            return;
+        specialEffectsPane.setVisible(true);
+        specialEffectsButton.setVisible(false);
+    }
+
+    @FXML
+    private JFXSlider upscaleSlider;
+    @FXML
+    private JFXSlider compressQuality;
+
+    @FXML
+    protected void UPSCALEIMAGE() throws IOException {
+        UpScaleImage scale = new UpScaleImage();
+        scale.resize(file.getAbsolutePath(), "D:\\upscaleOutput.jpg",upscaleSlider.getValue());
+    }
+
+    @FXML
+    protected void COMPRESS() throws IOException {
+        Compress compress = new Compress();
+        Image image = activeImageView.getImage();
+        System.out.println(compressQuality.getValue() / 100);
+        compress.compressImage(image, compressQuality.getValue() / 100);
+    }
+
+
+    @FXML
     protected void rotate90() {
-        activeImageView.setRotate((90 + activeImageView.getRotate()));
+        imageViewPane.setRotate((90 + imageViewPane.getRotate()));
     }
 
     @FXML
     protected void rotate180() {
-        activeImageView.setRotate((180 + activeImageView.getRotate()));
+        imageViewPane.setRotate((180 + imageViewPane.getRotate()));
     }
+
+    @FXML
+    protected void flipVertical() {
+        Translate flipTranslation = new Translate(0, imageViewPane.getPrefHeight());
+        Rotate flipRotation = new Rotate(180, Rotate.X_AXIS);
+        imageViewPane.getTransforms().addAll(flipTranslation, flipRotation);
+    }
+
+    @FXML
+    protected void flipHorizontal() {
+        Translate flipTranslation = new Translate(imageViewPane.getPrefWidth(), 0);
+        Rotate flipRotation = new Rotate(180, Rotate.Y_AXIS);
+        imageViewPane.getTransforms().addAll(flipTranslation, flipRotation);
+    }
+
+    @FXML
+    protected void redEyeCorrection() throws InterruptedException {
+        Imgcodecs imgCodecs = new Imgcodecs();
+        RedEyeCorrection redEyeCorrection = new RedEyeCorrection();
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        redEyeCorrection.correctRedEye(file, imgCodecs, activeImageView);
+
+    }
+
+    @FXML
+    protected void zoomIn() {
+        imageViewPane.maxWidth(100);
+        imageViewPane.maxHeight(100);
+        double finalZoomFactor = 1.05;
+        imageViewPane.setScaleX(imageViewPane.getScaleX() * finalZoomFactor);
+        imageViewPane.setScaleY(imageViewPane.getScaleY() * finalZoomFactor);
+    }
+
+    @FXML
+    protected void zoomOut() {
+        imageViewPane.maxWidth(100);
+        imageViewPane.maxHeight(100);
+        double finalZoomFactor = 0.95;
+        imageViewPane.setScaleX(imageViewPane.getScaleX() * finalZoomFactor);
+        imageViewPane.setScaleY(imageViewPane.getScaleY() * finalZoomFactor);
+    }
+
 
     @FXML
     protected void undoButtonPressed() {
@@ -629,28 +770,20 @@ public class Controller implements Initializable {
         filters.setSmoothFilter(imageViewPane);
     }
 
-    @FXML
-    protected void COMPRESS() throws IOException {
-        Compress compress= new Compress();
-        Image image= activeImageView.getImage();
-        compress.compressImage(image);
-
-    }
 
     @FXML
     protected void SCALE() throws IOException {
-//        UpScaleImage scale= new UpScaleImage();
-//        Image image= activeImageView.getImage();
-
 
     }
 
     @FXML
-    protected void SIDEBLUR() throws FileNotFoundException {
-        SideBlur sideBlur =new SideBlur();
-        ImageView imageView= activeImageView;
-       sideBlur.VerticalSideBlur(imageViewPane,imageView);
+    protected void verticalSideBlur() throws FileNotFoundException {
+        SideBlur.verticalSideBlur(imageViewPane, activeImageView);
+    }
 
+    @FXML
+    protected void horizontolSideBlur() throws FileNotFoundException {
+        SideBlur.horizonrolSideBlur(imageViewPane, activeImageView);
     }
 
 }

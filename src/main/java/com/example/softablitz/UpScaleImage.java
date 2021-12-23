@@ -12,16 +12,15 @@ public class UpScaleImage {
 
     }
 
-    public  void resize(String inputImagePath,
-                              String outputImagePath, int scaledWidth, int scaledHeight)
+    public void resize(String inputImagePath,
+                       String outputImagePath, int scaledWidth, int scaledHeight)
             throws IOException {
         // reads input image
         File inputFile = new File(inputImagePath);
         BufferedImage inputImage = ImageIO.read(inputFile);
 
         // creates output image
-        BufferedImage outputImage = new BufferedImage(scaledWidth,
-                scaledHeight, inputImage.getType());
+        BufferedImage outputImage = new BufferedImage(scaledWidth, scaledHeight, inputImage.getType());
 
         // scales the input image to the output image
         Graphics2D g2d = outputImage.createGraphics();
@@ -36,8 +35,7 @@ public class UpScaleImage {
         ImageIO.write(outputImage, formatName, new File(outputImagePath));
     }
 
-    public  void resize(String inputImagePath, String outputImagePath, double percent) throws IOException
-    {
+    public void resize(String inputImagePath, String outputImagePath, double percent) throws IOException {
         File inputFile = new File(inputImagePath);
         BufferedImage inputImage = ImageIO.read(inputFile);
         int scaledWidth = (int) (inputImage.getWidth() * percent);
