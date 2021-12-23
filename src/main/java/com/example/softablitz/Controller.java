@@ -62,6 +62,7 @@ public class Controller implements Initializable {
         stk = new Stack<>();
 
         TEXTPANE.setVisible(false);
+
     }
 
     @FXML
@@ -183,8 +184,33 @@ public class Controller implements Initializable {
 //
 //            }
 //        });
-
     }
+
+
+    @FXML
+    private ImageView emj1;
+    @FXML
+    private AnchorPane EMOJIPANE;
+
+    @FXML
+    private void emojiButtonPressed() {
+//        if (EMOJIPANE.isVisible())
+//            EMOJIPANE.setVisible(false);
+//        else
+//           EMOJIPANE.setVisible(true);
+
+        emj1.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                imageViewPane.getChildren().add(emj1);
+            }
+        });
+    }
+    @FXML
+    Slider EMOJISIZEADJUST;
+
+
+
 
     @FXML
     private AnchorPane TEXTPANE;
@@ -195,6 +221,7 @@ public class Controller implements Initializable {
             TEXTPANE.setVisible(false);
         else
             TEXTPANE.setVisible(true);
+
     }
 
     @FXML
