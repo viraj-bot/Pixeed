@@ -1,7 +1,11 @@
-Pixeed is an javafx, opencv based photo editing software which is enriched with functionalities listed below.
+# Pixeed 
+
+# Pixeed is an javafx, opencv based photo editing software which is enriched with functionalities listed below.
 
 1:) The Pixeed is able to open an image from a system.
+
 2:)  After editing, the user is able to save the image into the system.
+
 3:)  Capable to zoom in, zoom out, undo, crop.
 4:)  Capable to scale the image.
 5:)  Cable to add text and emoji on image.
