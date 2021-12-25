@@ -3,11 +3,14 @@
 }
 
 .grey-color {
-    /*-fx-background-color: grey;*/
+    -fx-background-color: grey;
 }
 
 .image-view-wrapper {
     -fx-border-color: white;
     -fx-border-style: solid;
     -fx-border-width: 5;
+}
+.btn-color{
+    -fx-background-color:  #262626;
 }

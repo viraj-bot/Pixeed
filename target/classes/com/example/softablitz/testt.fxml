@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Testt">
    <children>
-      <ScrollPane layoutX="536.0" layoutY="2.0" prefHeight="130.0" prefWidth="273.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="210.0" prefWidth="347.0" />
-        </content>
-      </ScrollPane>
+      <Button layoutX="479.0" layoutY="132.0" mnemonicParsing="false" onAction="#select" text="select" />
+      <AnchorPane fx:id="imageViewPane" layoutX="61.0" layoutY="38.0">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="325.0" fitWidth="379.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icons/frame1.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <Button layoutX="479.0" layoutY="200.0" mnemonicParsing="false" onAction="#crop" prefHeight="25.0" prefWidth="47.0" text="crop" />
    </children>
 </AnchorPane>

@@ -26,6 +26,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
@@ -62,7 +63,7 @@ public class Controller implements Initializable {
     private JFXSlider saturation;
     @FXML
     private TextArea FIELD;
-    private ImageView activeImageView;
+    protected ImageView activeImageView;
     private ImageView imageView;
     private List<File> list;
     private Stack<ObservableList<Node>> stk;
@@ -160,39 +161,6 @@ public class Controller implements Initializable {
 
     }
 
-    @FXML
-    protected void cropButtonPressed() {
-
-//        bottomToUpCrop.valueProperty().addListener(new InvalidationListener() {
-//            @Override
-//            public void invalidated(Observable observable) {
-//                double x = bottomToUpCrop.getValue() * orgHeight / 100;
-//                Rectangle2D rectangle2D = new Rectangle2D(0, 0, orgWidth, x);
-//                imageView.setViewport(rectangle2D);
-//            }
-//        });
-//        topToBottomCrop.valueProperty().addListener(new InvalidationListener() {
-//            @Override
-//            public void invalidated(Observable observable) {
-//                Rectangle2D rectangle2D = new Rectangle2D(0, 0, bottomToUpCrop.getValue() * orgWidth / 100, orgWidth);
-//                imageView.setViewport(rectangle2D);
-//            }
-//        });
-//        leftToRightCrop.valueProperty().addListener(new InvalidationListener() {
-//            @Override
-//            public void invalidated(Observable observable) {
-//                Rectangle2D rectangle2D = new Rectangle2D(0, 0, 50, 50);
-//                imageView.setViewport(rectangle2D);
-//            }
-//        });
-//        rightToLeftCrop.valueProperty().addListener(new InvalidationListener() {
-//            @Override
-//            public void invalidated(Observable observable) {
-//
-//            }
-//        });
-
-    }
 
     @FXML
     private AnchorPane TEXTPANE;
@@ -205,8 +173,6 @@ public class Controller implements Initializable {
 
     @FXML
     private void ADDBUTTONPRESSED() {
-        AnchorPane anchorPane = new AnchorPane();
-        anchorPane.setStyle("-fx-background-color: white");
         Text text = new Text();
         text.setText(FIELD.getText());
         text.setFill(COLORPICKER.getValue());
@@ -249,7 +215,6 @@ public class Controller implements Initializable {
         imageView.setLayoutY((anchorPane.getHeight() - hig) / 2 - padding);
         anchorPane.getChildren().add(imageView);
         return ratio;
-
     }
 
     @FXML
@@ -288,6 +253,7 @@ public class Controller implements Initializable {
         brushPane.setVisible(false);
         brushButton.setVisible(true);
         specialEffectsButton.setVisible(true);
+
     }
 
     @FXML
@@ -307,6 +273,7 @@ public class Controller implements Initializable {
         textButton.setVisible(true);
         brushButton.setVisible(true);
         specialEffectsButton.setVisible(true);
+
     }
 
     @FXML
@@ -350,12 +317,13 @@ public class Controller implements Initializable {
         TEXTPANE.setVisible(false);
         textButton.setVisible(true);
         adjustButton.setVisible(true);
-        specialEffectsPane.setVisible(false);
+
         specialEffectsButton.setVisible(true);
         if (activeImageView == null) {
             return;
         }
         specialEffectsButton.setVisible(false);
+
         brushPane.setVisible(true);
         brushButton.setVisible(false);
         GraphicsContext g;
@@ -376,6 +344,7 @@ public class Controller implements Initializable {
         });
         imageViewPane.getChildren().add(canvas);
     }
+
 
     @FXML
     protected void specialEffectsButtonPressed() {
@@ -399,7 +368,7 @@ public class Controller implements Initializable {
     @FXML
     protected void UPSCALEIMAGE() throws IOException {
         UpScaleImage scale = new UpScaleImage();
-        scale.resize(file.getAbsolutePath(), "D:\\upscaleOutput.jpg",upscaleSlider.getValue());
+        scale.resize(file.getAbsolutePath(), "D:\\upscaleOutput.jpg", upscaleSlider.getValue());
     }
 
     @FXML
@@ -462,7 +431,6 @@ public class Controller implements Initializable {
         imageViewPane.setScaleY(imageViewPane.getScaleY() * finalZoomFactor);
     }
 
-
     @FXML
     protected void undoButtonPressed() {
         if (!stk.empty()) {
@@ -473,6 +441,31 @@ public class Controller implements Initializable {
         }
     }
 
+
+    @FXML
+    protected void rectangleSelection() throws FileNotFoundException {
+        SelectArea selectArea = new SelectArea(file, activeImageView);
+        selectArea.makeRectangle(imageViewPane, activeImageView, file);
+    }
+
+    @FXML
+    protected void ellipseSelection() throws FileNotFoundException {
+        SelectArea selectArea = new SelectArea(file, activeImageView);
+        selectArea.makeEllipse(imageViewPane, activeImageView);
+    }
+
+    @FXML
+    protected void lassoSelection() throws FileNotFoundException {
+        SelectArea selectArea = new SelectArea(file, activeImageView);
+        selectArea.makeLasso(imageViewPane, activeImageView, file);
+    }
+
+    @FXML
+    protected void cropButtonPressed() throws FileNotFoundException {
+        SelectArea selectArea = new SelectArea(file, activeImageView);
+        selectArea.crop(file, activeImageView, imageViewPane);
+        selectArea.crop(file, activeImageView, imageViewPane);
+    }
 
     @FXML
     void SETFRAME1(ActionEvent event) throws FileNotFoundException {
@@ -579,7 +572,7 @@ public class Controller implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 try {
-                    System.out.println("clicked1");
+
                     openFile(imageView);
                     imageView.toBack();
                 } catch (FileNotFoundException e) {

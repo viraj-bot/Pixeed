@@ -375,10 +375,11 @@ public class test implements Initializable {
         anchorPane = new AnchorPane();
         addCollageFrame(anchorPane, startx, starty, width, height);
     }
+
     @FXML
-    private   double mouseDownX;
-     private double mouseDownY;
-    private   double endWidth;
+    private double mouseDownX;
+    private double mouseDownY;
+    private double endWidth;
     private double endHeight;
 
     @FXML
@@ -435,13 +436,12 @@ public class test implements Initializable {
             selectionRectangle.setHeight(Math.abs(e.getY() - mouseDownY));
         });
 
-        imageViewPane.setOnMouseReleased(e ->{
+        imageViewPane.setOnMouseReleased(e -> {
 
-            endWidth=Math.abs(e.getX()-mouseDownX);
-            endHeight=Math.abs(e.getY()-mouseDownY);
+            endWidth = Math.abs(e.getX() - mouseDownX);
+            endHeight = Math.abs(e.getY() - mouseDownY);
 
         });
-
 
 
     }
@@ -471,15 +471,15 @@ public class test implements Initializable {
         imageViewPane.setOnMousePressed(e -> {
             mouseDownX = e.getX();
             mouseDownY = e.getY();
-          ellipse.setCenterX(mouseDownX);
+            ellipse.setCenterX(mouseDownX);
             ellipse.setCenterY(mouseDownY);
             ellipse.setRadiusX(0.0);
             ellipse.setRadiusY(0.0);
         });
 
         imageViewPane.setOnMouseDragged(e -> {
-            ellipse.setCenterX(Math.min(e.getX(),mouseDownX));
-            ellipse.setCenterY(Math.min(e.getY(),mouseDownY));
+            ellipse.setCenterX(Math.min(e.getX(), mouseDownX));
+            ellipse.setCenterY(Math.min(e.getY(), mouseDownY));
             ellipse.setRadiusX(Math.abs(e.getX() - mouseDownX));
             ellipse.setRadiusY(Math.abs(e.getY() - mouseDownY));
 //            selectionRectangle.setX(Math.min(e.getX(), mouseDownX));
@@ -667,27 +667,27 @@ public class test implements Initializable {
         alphaSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                apha[0] = alphaSlider.getValue()%10;
-                smoothing.smoothImage(file, imageView,apha[0],beta,gamma,sigmax);
+                apha[0] = alphaSlider.getValue() % 10;
+                smoothing.smoothImage(file, imageView, apha[0], beta, gamma, sigmax);
             }
         });
         betaSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
 
-                smoothing.smoothImage(file, imageView, apha[0],betaSlider.getValue()-50,gamma,sigmax);
+                smoothing.smoothImage(file, imageView, apha[0], betaSlider.getValue() - 50, gamma, sigmax);
             }
         });
         gammaSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                smoothing.smoothImage(file, imageView, apha[0],beta,gammaSlider.getValue(),sigmax);
+                smoothing.smoothImage(file, imageView, apha[0], beta, gammaSlider.getValue(), sigmax);
             }
         });
         sigmaxSlider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                smoothing.smoothImage(file, imageView, apha[0],beta,gamma,sigmaxSlider.getValue());
+                smoothing.smoothImage(file, imageView, apha[0], beta, gamma, sigmaxSlider.getValue());
             }
         });
     }

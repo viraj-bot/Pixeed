@@ -54,8 +54,6 @@ public class RedEyeCorrection {
             Core.compare(r, bg, submask2, Core.CMP_GT);
             Mat mask = new Mat();
             Core.bitwise_and(submask, submask2, mask);
-
-//            fillHoles(mask);
             Mat kernel = new Mat();
             dilate(mask, mask, kernel, new Point(-1, -1), 3, 1, new Scalar(1));
 
@@ -82,6 +80,7 @@ public class RedEyeCorrection {
             InputStream in = new ByteArrayInputStream(byteArray);
             bufImage = ImageIO.read(in);
             Image image = SwingFXUtils.toFXImage(bufImage, null);
+
             imageView.setImage(image);
 //            JFrame frame = new JFrame();
 //            frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
