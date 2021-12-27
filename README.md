@@ -2,11 +2,29 @@
 
 # Pixeed is an javafx, opencv based photo editing software which is enriched with functionalities listed below.
 
+# Pixeed Images
+
+![alt text](https://github.com/Chitra-Maker/Pixeed/blob/main/Screenshot%20(26).png?raw=true)
+
+![alt text](https://github.com/Chitra-Maker/Pixeed/blob/main/Screenshot%20(34).png?raw=true)
+
+![alt text](https://github.com/Chitra-Maker/Pixeed/blob/main/Screenshot%20(35).png?raw=true)
+
+![alt text](https://github.com/Chitra-Maker/Pixeed/blob/main/Screenshot%20(36).png?raw=true)
+
+![alt text](https://github.com/Chitra-Maker/Pixeed/blob/main/Screenshot%20(37).png?raw=true)
+
+![alt text](https://github.com/Chitra-Maker/Pixeed/blob/main/Screenshot%20(38).png?raw=true)
+
+![alt text](https://github.com/Chitra-Maker/Pixeed/blob/main/Screenshot%20(39).png?raw=true)
+
+# Pixeed Functionalities :)
+
 1:) The Pixeed is able to open an image from a system.
 
 2:)  After editing, the user is able to save the image into the system.
 
-3:)  Capable to zoom in, zoom out, undo, crop.
+3:)  Capable to zoom in, zoom out, crop.
 
 4:)  Capable to scale the image.
 
@@ -24,7 +42,7 @@
 
 11:) Users can add frames to image.
 
-12:) User can add filters ( raining, sunshine).
+12:) User can add filters ( raining, sunshine , smoothing ).
 
 13:) Red-eye correction feature (Implemented using openCV).
 
@@ -33,3 +51,7 @@
 15:) Add background changer and frame selection for an image.
 
 16:) Add functionality of layers Preserve ratio by blurring sides.
+
+17:) Special effects like bloom, drop shadow, glow , sepia tone, vintage, box blur.
+
+
