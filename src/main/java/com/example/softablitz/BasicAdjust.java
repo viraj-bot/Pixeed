@@ -3,19 +3,24 @@ package com.example.softablitz;
 import com.jfoenix.controls.JFXSlider;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.event.EventHandler;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class BasicAdjust {
 
-    protected JFXSlider brightness,contrast,hue,saturation;
-    BasicAdjust(JFXSlider b,JFXSlider c,JFXSlider h,JFXSlider s){
+    protected JFXSlider brightness, contrast, hue, saturation;
+
+    BasicAdjust(JFXSlider b, JFXSlider c, JFXSlider h, JFXSlider s) {
         this.brightness = b;
         this.contrast = c;
         this.hue = h;
         this.saturation = s;
     }
-    protected void setSliderListener(ImageView activeImageView){
+
+    protected void setSliderListener(ImageView activeImageView, AnchorPane imageViewPane) {
         ColorAdjust colorAdjust = new ColorAdjust();
         brightness.valueProperty().addListener(new InvalidationListener() {
             @Override
@@ -27,22 +32,28 @@ public class BasicAdjust {
         contrast.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                colorAdjust.setContrast((contrast.getValue() - 50) /50);
+                colorAdjust.setContrast((contrast.getValue() - 50) / 50);
                 activeImageView.setEffect(colorAdjust);
             }
         });
         hue.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                colorAdjust.setHue((hue.getValue() - 50)/ 50);
+                colorAdjust.setHue((hue.getValue() - 50) / 50);
                 activeImageView.setEffect(colorAdjust);
             }
         });
         saturation.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                colorAdjust.setSaturation((saturation.getValue() - 50) /50);
+                colorAdjust.setSaturation((saturation.getValue() - 50) / 50);
                 activeImageView.setEffect(colorAdjust);
+            }
+        });
+        brightness.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                Controller.push(imageViewPane);
             }
         });
     }

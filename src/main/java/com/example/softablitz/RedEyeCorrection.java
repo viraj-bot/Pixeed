@@ -71,7 +71,6 @@ public class RedEyeCorrection {
     }
 
     public static void showResult(Mat img, ImageView imageView) {
-        Imgproc.resize(img, img, new Size(640, 480));
         MatOfByte matOfByte = new MatOfByte();
         Imgcodecs.imencode(".jpg", img, matOfByte);
         byte[] byteArray = matOfByte.toArray();

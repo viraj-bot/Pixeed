@@ -10,7 +10,7 @@
 
 <AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
     <AnchorPane prefHeight="650.0" prefWidth="1280.0" style="-fx-background-color: black;">
-        <AnchorPane fx:id="imageViewPane" layoutY="27.0" maxHeight="693.0" maxWidth="1073.0" minHeight="381.0" minWidth="-Infinity" prefHeight="625.0" prefWidth="1009.0" style="-fx-background-color: #100E09;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="271.0" AnchorPane.topAnchor="27.0" />
+        <AnchorPane fx:id="imageViewPane" layoutY="27.0" maxHeight="693.0" maxWidth="1073.0" minHeight="381.0" minWidth="-Infinity" prefHeight="625.0" prefWidth="1009.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="271.0" AnchorPane.topAnchor="27.0" />
         <MenuBar layoutY="1.0" opacity="0.37" prefHeight="25.0" prefWidth="1280.0" style="-fx-background-color: #bababa;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.0">
             <Menu mnemonicParsing="false" text="File">
                 <items>
@@ -142,15 +142,6 @@
                 <items>
                     <Menu mnemonicParsing="false" text="Rain">
                         <items>
-                            <MenuItem mnemonicParsing="false" onAction="#SETRAIN1">
-                                <graphic>
-                                    <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@icons/rain1.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic>
-                            </MenuItem>
                             <MenuItem mnemonicParsing="false" onAction="#SETRAIN2">
                                 <graphic>
                                     <ImageView fitHeight="75.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
@@ -445,9 +436,9 @@
                         </JFXButton>
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutX="3.0" layoutY="342.0" prefHeight="249.0" prefWidth="269.0" style="-fx-background-color: #252324;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <AnchorPane layoutX="3.0" layoutY="342.0" prefHeight="281.0" prefWidth="269.0" style="-fx-background-color: #252324;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <children>
-                        <JFXButton fx:id="specialEffectsButton1" layoutX="14.0" layoutY="183.0" onAction="#rotate90" text="aa" textFill="WHITE">
+                        <JFXButton fx:id="specialEffectsButton1" layoutX="13.0" layoutY="221.0" onAction="#rotate90" text="aa" textFill="WHITE">
                             <font>
                                 <Font name="System Italic" size="1.0" />
                             </font>
@@ -462,7 +453,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="specialEffectsButton11" layoutX="75.0" layoutY="183.0" onAction="#rotate180" text="Button" textFill="WHITE">
+                        <JFXButton fx:id="specialEffectsButton11" layoutX="72.0" layoutY="221.0" onAction="#rotate180" text="Button" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -477,17 +468,17 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <Label layoutX="21.0" layoutY="222.0" text="90°" textFill="WHITE">
+                        <Label layoutX="20.0" layoutY="250.0" text="90°" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <Label layoutX="80.0" layoutY="223.0" text="180°" textFill="WHITE">
+                        <Label layoutX="77.0" layoutY="251.0" text="180°" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                        <JFXButton layoutX="75.0" layoutY="101.0" onAction="#zoomOut" text="Button" textFill="WHITE">
+                        <JFXButton layoutX="73.0" layoutY="155.0" onAction="#zoomOut" text="Button" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -502,7 +493,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton layoutX="13.0" layoutY="101.0" onAction="#zoomIn" text="Button" textFill="WHITE">
+                        <JFXButton layoutX="13.0" layoutY="155.0" onAction="#zoomIn" text="Button" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -517,7 +508,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton layoutX="14.0" layoutY="14.0" onAction="#flipHorizontal" text="Button" textFill="WHITE">
+                        <JFXButton layoutX="13.0" layoutY="87.0" onAction="#flipHorizontal" text="Button" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -532,7 +523,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton layoutX="76.0" layoutY="14.0" onAction="#flipVertical" text="Button" textFill="WHITE">
+                        <JFXButton layoutX="72.0" layoutY="87.0" onAction="#flipVertical" text="Button" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -547,28 +538,28 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <Label layoutX="4.0" layoutY="50.0" text="|Mirror|" textFill="#fcfafa">
+                        <Label layoutX="8.0" layoutY="115.0" text="|Mirror|" textFill="#fcfafa">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                        <Label layoutX="59.0" layoutY="50.0" text="━MIrror━" textFill="WHITE" wrapText="true">
+                        <Label layoutX="57.0" layoutY="115.0" text="━MIrror━" textFill="WHITE" wrapText="true">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                        <Label layoutX="7.0" layoutY="138.0" text="Zoom In" textFill="WHITE">
+                        <Label layoutX="6.0" layoutY="193.0" text="Zoom In" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                        <Label layoutX="64.0" layoutY="138.0" text="Zoom Out" textFill="WHITE">
+                        <Label layoutX="61.0" layoutY="193.0" text="Zoom Out" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                        <JFXSlider fx:id="angleSlider" layoutX="131.0" layoutY="189.0" majorTickUnit="30.0" max="45.0" min="-45.0" minorTickCount="6" prefHeight="39.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" value="0.1" />
-                        <AnchorPane layoutX="127.0" layoutY="90.0" prefHeight="67.0" prefWidth="138.0">
+                        <JFXSlider fx:id="angleSlider" layoutX="127.0" layoutY="235.0" majorTickUnit="30.0" max="45.0" min="-45.0" minorTickCount="6" prefHeight="39.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" value="0.1" />
+                        <AnchorPane layoutX="127.0" layoutY="144.0" prefHeight="67.0" prefWidth="138.0">
                             <children>
                                 <JFXButton layoutX="101.0" layoutY="7.0" onAction="#COMPRESS" prefHeight="27.0" prefWidth="32.0" textFill="WHITE">
                                     <font>
@@ -604,7 +595,7 @@
                                 <JFXSlider fx:id="upscaleSlider" blockIncrement="1.0" layoutX="5.0" layoutY="42.0" majorTickUnit="1.0" max="5.0" prefHeight="33.0" prefWidth="91.0" showTickLabels="true" value="1.0" />
                             </children>
                         </AnchorPane>
-                        <JFXButton layoutX="150.0" layoutY="14.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" onAction="#verticalSideBlur" prefHeight="25.0" prefWidth="25.0">
+                        <JFXButton layoutX="150.0" layoutY="88.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" onAction="#verticalSideBlur" prefHeight="25.0" prefWidth="25.0">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -619,7 +610,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton layoutX="214.0" layoutY="14.0" onAction="#horizontolSideBlur" prefHeight="25.0" prefWidth="25.0">
+                        <JFXButton layoutX="214.0" layoutY="88.0" onAction="#horizontolSideBlur" prefHeight="25.0" prefWidth="25.0">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -634,20 +625,76 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <Label layoutX="147.0" layoutY="50.0" text="|Blur|" textFill="WHITE">
+                        <Label layoutX="147.0" layoutY="115.0" text="|Blur|" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
                         <Label layoutX="216.0" layoutY="50.0" />
-                        <Label layoutX="206.0" layoutY="50.0" prefHeight="17.0" prefWidth="47.0" text="━Blur━" textFill="WHITE">
+                        <Label layoutX="205.0" layoutY="115.0" prefHeight="17.0" prefWidth="47.0" text="━Blur━" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
+                  <JFXButton layoutX="9.0" layoutY="22.0" onAction="#undoButtonPressed" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="1.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/undo.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="1.0" />
+                           </effect>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Label layoutX="14.0" layoutY="50.0" text="Undo" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <JFXButton layoutX="67.0" layoutY="22.0" onAction="#redoButtonPressed" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="1.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/redo.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="1.0" />
+                           </effect>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Label layoutX="73.0" layoutY="50.0" text="Redo" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+                      <JFXButton layoutX="142.0" layoutY="17.0" onAction="#redEyeCorrection" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
+                          <font>
+                              <Font name="System Bold" size="1.0" />
+                          </font>
+                          <graphic>
+                              <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@icons/redeye.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                      </JFXButton>
+                      <Label layoutX="141.0" layoutY="50.0" text="Red Eye" textFill="WHITE">
+                          <font>
+                              <Font name="System Bold" size="12.0" />
+                          </font>
+                      </Label>
                     </children>
                 </AnchorPane>
-                <JFXButton layoutX="9.0" layoutY="254.0" onAction="#cropButtonPressed" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #262626;" text="Crop" textFill="WHITE">
+                <JFXButton layoutX="9.0" layoutY="222.0" onAction="#cropButtonPressed" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #262626;" text="Crop" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
@@ -662,19 +709,7 @@
                         </ImageView>
                     </graphic>
                 </JFXButton>
-                <JFXButton layoutX="214.0" layoutY="235.0" onAction="#redEyeCorrection" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="1.0" />
-                    </font>
-                    <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@icons/redeye.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </JFXButton>
-                <MenuButton layoutY="325.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="99.0" style="-fx-background-color: #262626;" text="Select" textFill="WHITE" AnchorPane.leftAnchor="2.0">
+                <MenuButton layoutX="2.0" layoutY="275.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="99.0" style="-fx-background-color: #262626;" text="Select" textFill="WHITE" AnchorPane.leftAnchor="2.0">
                     <items>
                         <MenuItem mnemonicParsing="false">
                             <graphic>
@@ -748,12 +783,7 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </MenuButton>
-                <Label layoutX="206.0" layoutY="282.0" text="Red Eye" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="12.0" />
-                    </font>
-                </Label>
-            <JFXButton layoutX="107.0" layoutY="325.0" onAction="#redEyeCorrection" prefHeight="37.0" prefWidth="157.0" style="-fx-background-color: #262626;;" text="Choose Background" textFill="WHITE">
+            <JFXButton layoutX="106.0" layoutY="274.0" onAction="#chooseBackground" prefHeight="37.0" prefWidth="152.0" style="-fx-background-color: #262626;;" text="Choose Background" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="11.0" />
                </font>

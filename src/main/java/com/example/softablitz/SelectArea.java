@@ -1,5 +1,6 @@
 package com.example.softablitz;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -10,16 +11,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
+
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
-import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static org.opencv.core.Core.*;
+import static org.opencv.core.CvType.CV_8UC4;
 import static org.opencv.imgproc.Imgproc.*;
 
 public class SelectArea {
@@ -32,6 +35,9 @@ public class SelectArea {
     protected static Ellipse ellipse;
     protected static Mat mask;
     protected static Mat matrix;
+    protected static ArrayList<MatOfPoint> matOfPointList;
+    protected static Mat result;
+    protected static Mat mask2;
 
     public SelectArea(File file, ImageView imageView) throws FileNotFoundException {
         try {
@@ -40,13 +46,16 @@ public class SelectArea {
             Image image = new Image(stream);
             ratio1 = image.getHeight() / imageView.getFitHeight();
             ratio2 = image.getWidth() / imageView.getFitWidth();
-            matrix = Imgcodecs.imread(file.getAbsolutePath(), Imgcodecs.IMREAD_COLOR);
+            matrix = Imgcodecs.imread(file.getAbsolutePath(), 4);
+            cvtColor(matrix, matrix, COLOR_BGR2BGRA);
+            System.out.println("channels = " + matrix.get(0, 0).length);
+            showResult(matrix, imageView);
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("");
             alert.setHeaderText("An error has been encountered");
-            alert.setContentText("Please select Some Image in file option");//from   www  .  ja va  2 s  .com
+            alert.setContentText("Please select Some Image in file option"); //from www.java2s.com
             alert.showAndWait();
         }
     }
@@ -141,7 +150,6 @@ public class SelectArea {
                 }
             }
         });
-
     }
 
     protected static void makeEllipse(AnchorPane imageViewPane, ImageView imageView) {
@@ -168,62 +176,94 @@ public class SelectArea {
             ellipse.setRadiusY(Math.abs(e.getSceneY() - mouseDownY));
         });
         imageView.setOnMouseReleased(e -> {
-            mask = new Mat(matrix.rows(), matrix.cols(), matrix.type());
+            mask = new Mat(matrix.rows(), matrix.cols(), CV_8UC4, new Scalar(0, 0, 0, 0));
             double ratio = Math.max(ratio2, ratio1);
             Point point = new Point(ellipse.getCenterX() * ratio, ellipse.getCenterY() * ratio);
             Size size = new Size(ellipse.getRadiusX() * ratio, ellipse.getRadiusY() * ratio);
-            ellipse(mask, point, size, 0, 0, 360, new Scalar(255, 255, 255), -1, LINE_AA);
+            ArrayList<Mat> bgra = new ArrayList<>(4);
+            split(mask, bgra);
+            ellipse(bgra.get(0), point, size, 0, 0, 360, new Scalar(255), -1, LINE_AA);
+            ellipse(bgra.get(1), point, size, 0, 0, 360, new Scalar(255), -1, LINE_AA);
+            ellipse(bgra.get(2), point, size, 0, 0, 360, new Scalar(255), -1, LINE_AA);
+            ellipse(bgra.get(3), point, size, 0, 0, 360, new Scalar(255), -1, LINE_AA);
+            merge(bgra, mask);
         });
     }
 
     protected static void makeMask(ImageView imageView, File file) throws FileNotFoundException {
         ArrayList<Point> corners = new ArrayList<>();
+        double ratio = Math.max(ratio2, ratio1);
         for (int i = 0; i < polygon.getPoints().size(); i += 2) {
-            corners.add(new Point(polygon.getPoints().get(i) * Math.max(ratio2, ratio1), polygon.getPoints().get(i + 1) * Math.max(ratio2, ratio1)));
+            corners.add(new Point(polygon.getPoints().get(i) * ratio, polygon.getPoints().get(i + 1) * ratio));
         }
         MatOfPoint matOfPoint = new MatOfPoint();
         matOfPoint.fromList(corners);
-        ArrayList<MatOfPoint> matOfPointList = new ArrayList<>();
+        matOfPointList = new ArrayList<>();
         matOfPointList.add(matOfPoint);
+        mask = new Mat(matrix.rows(), matrix.cols(), CV_8UC4, new Scalar(0, 0, 0, 0));
+        ArrayList<Mat> bgra = new ArrayList<>(4);
+        split(mask, bgra);
+        drawContours(bgra.get(0), matOfPointList, -1, new Scalar(255), -1, LINE_AA);
+        drawContours(bgra.get(1), matOfPointList, -1, new Scalar(255), -1, LINE_AA);
+        drawContours(bgra.get(2), matOfPointList, -1, new Scalar(255), -1, LINE_AA);
+        drawContours(bgra.get(3), matOfPointList, -1, new Scalar(255), -1, LINE_AA);
+        merge(bgra, mask);
+    }
 
-        Mat cropped = matrix.clone();
-        mask = new Mat(matrix.rows(), matrix.cols(), cropped.type(), new Scalar(0));
-        drawContours(mask, matOfPointList, -1, new Scalar(255, 255, 255), -1, LINE_AA);
+    protected static void fourChannels(Mat img) {
+        cvtColor(img, img, COLOR_BGR2BGRA);
+        Mat gray = new Mat();
+        cvtColor(img, gray, COLOR_BGR2GRAY);
+        Mat threshed = new Mat();
+        threshold(gray, threshed, 127, 255, THRESH_BINARY_INV | THRESH_OTSU);
+        Mat kernel = getStructuringElement(MORPH_ELLIPSE, new Size(11, 11));
+        Mat morphed = new Mat();
+        morphologyEx(threshed, morphed, MORPH_CLOSE, kernel);
+        Mat roi = new Mat();
+        findContours(morphed, matOfPointList, roi, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
+        Mat mask = new Mat(img.rows(), img.cols(), img.type());
+        fillPoly(mask, matOfPointList, new Scalar(255));
+        resize(result, result, result.size());
+        bitwise_and(img, mask, result);
     }
 
 
     protected static void crop(File file, ImageView imageView, AnchorPane imageViewPane) throws FileNotFoundException {
-        try {
-            Mat result = matrix.clone();
-            resize(mask, mask, matrix.size());
-            Core.bitwise_and(matrix, mask, result);
-            showResult(result);
-            imageViewPane.getChildren().remove(polygon);
-            imageViewPane.getChildren().remove(rect);
-            imageViewPane.getChildren().remove(ellipse);
-        } catch (NullPointerException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("");
-            alert.setHeaderText("An error has been encountered");
-            alert.setContentText("Please select area to crop");
-            alert.showAndWait();
-        }
+        result = new Mat();
+        bitwise_and(matrix, mask, result);
+        showResult(result, imageView);
+        imageViewPane.getChildren().remove(rect);
+        imageViewPane.getChildren().remove(ellipse);
+        imageViewPane.getChildren().remove(polygon);
     }
 
-    public static void showResult(Mat img) {
-        Imgproc.resize(img, img, new Size(640, 480));
+    protected static ImageView imageView;
+
+    protected static void chooseBackground(AnchorPane imageViewPane) throws FileNotFoundException {
+        imageViewPane.getChildren().remove(imageView);
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Select files", "*.jpg", "*.png", "*.jpeg", "*.jfif");
+        fileChooser.getExtensionFilters().add(filter);
+        List<File> list = fileChooser.showOpenMultipleDialog(null);
+        File x = list.get(0);
+        Image image = new Image(new FileInputStream(x.getAbsolutePath()));
+        imageView = new ImageView(image);
+        AnchorPane anchorPane = new AnchorPane();
+        anchorPane.getChildren().add(imageView);
+        ImageFrame.centerFrameImage(imageView, imageViewPane);
+        imageViewPane.getChildren().add(anchorPane);
+    }
+
+    public static void showResult(Mat img, ImageView imageView) {
         MatOfByte matOfByte = new MatOfByte();
-        Imgcodecs.imencode(".jpg", img, matOfByte);
+        Imgcodecs.imencode(".png", img, matOfByte);
         byte[] byteArray = matOfByte.toArray();
         BufferedImage bufImage = null;
         try {
             InputStream in = new ByteArrayInputStream(byteArray);
             bufImage = ImageIO.read(in);
-            JFrame frame = new JFrame();
-            frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-            frame.getContentPane().add(new JLabel(new ImageIcon(bufImage)));
-            frame.pack();
-            frame.setVisible(true);
+            Image image = SwingFXUtils.toFXImage(bufImage, null);
+            imageView.setImage(image);
         } catch (Exception e) {
             e.printStackTrace();
         }
