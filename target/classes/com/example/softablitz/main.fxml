@@ -10,8 +10,8 @@
 
 <AnchorPane maxHeight="650.0" maxWidth="1280.0" minHeight="650.0" minWidth="1280.0" prefHeight="650.0" prefWidth="1280.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.softablitz.Controller">
     <AnchorPane prefHeight="650.0" prefWidth="1280.0" style="-fx-background-color: black;">
-        <AnchorPane fx:id="imageViewPane" layoutY="27.0" maxHeight="693.0" maxWidth="1073.0" minHeight="381.0" minWidth="-Infinity" prefHeight="625.0" prefWidth="1009.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="271.0" AnchorPane.topAnchor="27.0" />
-        <MenuBar layoutY="1.0" opacity="0.37" prefHeight="25.0" prefWidth="1280.0" style="-fx-background-color: #bababa;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="1.0">
+        <AnchorPane fx:id="imageViewPane" layoutY="27.0" maxHeight="693.0" maxWidth="1073.0" minHeight="381.0" minWidth="-Infinity" prefHeight="625.0" prefWidth="1009.0" style="-fx-background-color: #100E09;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="271.0" AnchorPane.topAnchor="27.0" />
+        <MenuBar layoutY="1.0" opacity="0.65" prefHeight="25.0" prefWidth="1280.0" style="-fx-background-color: #8f8f8f;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Menu mnemonicParsing="false" text="File">
                 <items>
                     <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
@@ -209,7 +209,7 @@
                 </items>
             </Menu>
         </MenuBar>
-        <AnchorPane layoutX="1024.0" layoutY="33.0" prefHeight="625.0" prefWidth="255.0" style="-fx-background-color: #262626;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1011.3333333333333" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+        <AnchorPane layoutX="1011.0" layoutY="27.0" prefHeight="623.0" prefWidth="270.0" style="-fx-background-color: #252324;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1011.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="26.0">
             <children>
                 <AnchorPane fx:id="adjustPane" prefHeight="180.0" prefWidth="265.0" visible="false">
                     <children>
@@ -281,7 +281,7 @@
                         </JFXButton>
                     </children>
                 </AnchorPane>
-                <JFXButton fx:id="textButton" layoutY="45.0" onAction="#textButtonPressed" prefHeight="39.0" prefWidth="265.0" style="-fx-background-color: #262626;;" text="Text" textAlignment="JUSTIFY" textFill="WHITE">
+                <JFXButton fx:id="textButton" layoutY="45.0" onAction="#textButtonPressed" prefHeight="39.0" prefWidth="265.0" text="Text" textAlignment="JUSTIFY" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
@@ -341,7 +341,7 @@
                         </JFXButton>
                     </children>
                 </AnchorPane>
-                <JFXButton fx:id="adjustButton" onAction="#adjustHandle" onMouseClicked="#adjustHandle" prefHeight="39.0" prefWidth="265.0" style="-fx-background-color: #262626;;" text="Adjust" textAlignment="JUSTIFY" textFill="WHITE">
+                <JFXButton fx:id="adjustButton" onAction="#adjustHandle" onMouseClicked="#adjustHandle" prefHeight="39.0" prefWidth="265.0" text="Adjust" textAlignment="JUSTIFY" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
@@ -356,7 +356,7 @@
                         </ImageView>
                     </graphic>
                 </JFXButton>
-                <JFXButton fx:id="brushButton" layoutY="90.0" onAction="#brushButtonPressed" onMouseClicked="#brushButtonPressed" prefHeight="39.0" prefWidth="265.0" style="-fx-background-color: #262626;" text="Brush" textAlignment="JUSTIFY" textFill="WHITE">
+                <JFXButton fx:id="brushButton" layoutY="90.0" onAction="#brushButtonPressed" onMouseClicked="#brushButtonPressed" prefHeight="39.0" prefWidth="265.0" text="Brush" textAlignment="JUSTIFY" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
@@ -436,7 +436,7 @@
                         </JFXButton>
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutX="3.0" layoutY="342.0" prefHeight="336.0" prefWidth="269.0" style="-fx-background-color: #252324;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <AnchorPane layoutX="3.0" layoutY="342.0" prefHeight="336.0" prefWidth="269.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <children>
                         <JFXButton fx:id="specialEffectsButton1" layoutX="146.0" layoutY="155.0" onAction="#rotate90" text="aa" textFill="WHITE">
                             <font>
@@ -730,9 +730,9 @@
                   <JFXSlider fx:id="smoothingSlider" disable="true" layoutX="89.0" layoutY="33.0" majorTickUnit="5.0" max="31.0" min="1.0" prefHeight="34.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" value="15.5" />
                     </children>
                 </AnchorPane>
-                <JFXButton layoutX="2.0" layoutY="239.0" onAction="#cropButtonPressed" prefHeight="35.0" prefWidth="84.0" style="-fx-background-color: #262626;" text="Crop" textFill="WHITE">
+                <JFXButton layoutX="2.0" layoutY="239.0" onAction="#cropButtonPressed" prefHeight="35.0" prefWidth="91.0" style="-fx-background-color: #262626;" text="Crop" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="14.0" />
+                        <Font name="System Bold" size="15.0" />
                     </font>
                     <graphic>
                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -752,12 +752,15 @@
                <graphic>
                   <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/selection.jpg" />
+                        <Image url="@icons/dummyimage.png" />
                      </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
                   </ImageView>
                </graphic>
             </JFXButton>
-                <MenuButton fx:id="areaSelectionMenu" layoutX="41.0" layoutY="187.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="203.0" style="-fx-background-color: #262626;" text="Area Selection" textFill="WHITE" AnchorPane.leftAnchor="41.0">
+                <MenuButton fx:id="areaSelectionMenu" layoutX="41.0" layoutY="187.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="203.0" style="-fx-background-color: #252324;" text="Area Selection" textFill="WHITE" AnchorPane.leftAnchor="41.0">
                     <items>
                         <MenuItem mnemonicParsing="false">
                             <graphic>
@@ -831,7 +834,7 @@
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </MenuButton>
-            <MenuButton fx:id="specialEffectMenu" layoutX="41.0" layoutY="139.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="203.0" style="-fx-background-color: #262626;" text="Special Effects" textFill="WHITE">
+            <MenuButton fx:id="specialEffectMenu" layoutX="41.0" layoutY="139.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="203.0" style="-fx-background-color: #252324;" text="Special Effects" textFill="WHITE">
                <items>
                   <MenuItem mnemonicParsing="false">
                      <graphic>

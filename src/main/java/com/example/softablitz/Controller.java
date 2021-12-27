@@ -47,7 +47,7 @@ import java.util.Stack;
 
 
 public class Controller implements Initializable {
-    
+
     @FXML
     private AnchorPane menuBarPane, imageViewPane;
     @FXML
