@@ -657,39 +657,39 @@ public class test implements Initializable {
         scale.resize(file.getAbsolutePath(), "D:\\output.jpg", Double.parseDouble(upscaleTextField.getText()));
     }
 
-    @FXML
-    protected void smoothImage() {
-        Smoothing smoothing = new Smoothing();
-        final double[] apha = {1.5};
-        double beta = -0.5;
-        double gamma = 0;
-        double sigmax = 10;
-        alphaSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                apha[0] = alphaSlider.getValue() % 10;
-                smoothing.smoothImage(file, imageView, apha[0], beta, gamma, sigmax);
-            }
-        });
-        betaSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-
-                smoothing.smoothImage(file, imageView, apha[0], betaSlider.getValue() - 50, gamma, sigmax);
-            }
-        });
-        gammaSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                smoothing.smoothImage(file, imageView, apha[0], beta, gammaSlider.getValue(), sigmax);
-            }
-        });
-        sigmaxSlider.valueProperty().addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                smoothing.smoothImage(file, imageView, apha[0], beta, gamma, sigmaxSlider.getValue());
-            }
-        });
-    }
+//    @FXML
+//    protected void smoothImage() {
+//        Smoothing smoothing = new Smoothing();
+//        final double[] apha = {1.5};
+//        double beta = -0.5;
+//        double gamma = 0;
+//        double sigmax = 10;
+//        alphaSlider.valueProperty().addListener(new InvalidationListener() {
+//            @Override
+//            public void invalidated(Observable observable) {
+//                apha[0] = alphaSlider.getValue() % 10;
+//                smoothing.smoothImage(file, imageView, apha[0], beta, gamma, sigmax);
+//            }
+//        });
+//        betaSlider.valueProperty().addListener(new InvalidationListener() {
+//            @Override
+//            public void invalidated(Observable observable) {
+//
+//                smoothing.smoothImage(file, imageView, apha[0], betaSlider.getValue() - 50, gamma, sigmax);
+//            }
+//        });
+//        gammaSlider.valueProperty().addListener(new InvalidationListener() {
+//            @Override
+//            public void invalidated(Observable observable) {
+//                smoothing.smoothImage(file, imageView, apha[0], beta, gammaSlider.getValue(), sigmax);
+//            }
+//        });
+//        sigmaxSlider.valueProperty().addListener(new InvalidationListener() {
+//            @Override
+//            public void invalidated(Observable observable) {
+//                smoothing.smoothImage(file, imageView, apha[0], beta, gamma, sigmaxSlider.getValue());
+//            }
+//        });
+//    }
 
 }

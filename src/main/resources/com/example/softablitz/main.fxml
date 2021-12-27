@@ -209,7 +209,7 @@
                 </items>
             </Menu>
         </MenuBar>
-        <AnchorPane layoutX="1024.0" layoutY="33.0" prefHeight="625.0" prefWidth="255.0" style="-fx-background-color: #1c1c1c;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1011.3333333333333" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
+        <AnchorPane layoutX="1024.0" layoutY="33.0" prefHeight="625.0" prefWidth="255.0" style="-fx-background-color: #262626;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="1011.3333333333333" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0">
             <children>
                 <AnchorPane fx:id="adjustPane" prefHeight="180.0" prefWidth="265.0" visible="false">
                     <children>
@@ -319,7 +319,7 @@
                                 <Font name="System Bold" size="15.0" />
                             </font>
                         </TextArea>
-                        <JFXButton layoutX="115.0" layoutY="100.0" onAction="#ADDBUTTONPRESSED" prefHeight="51.0" prefWidth="115.0" text="Add Emoji" textFill="WHITE">
+                        <JFXButton layoutX="115.0" layoutY="100.0" onAction="#addEmojiButtonPressed" prefHeight="51.0" prefWidth="115.0" text="Add Emoji" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="14.0" />
                             </font>
@@ -402,7 +402,7 @@
                         </JFXButton>
                     </children>
                 </AnchorPane>
-                <JFXButton fx:id="specialEffectsButton" layoutX="1.0" layoutY="134.0" onAction="#specialEffectsButtonPressed" prefHeight="39.0" prefWidth="265.0" style="-fx-background-color: #262626;;" text="Special Effects" textFill="WHITE">
+                <JFXButton fx:id="specialEffectsButton" layoutX="1.0" layoutY="134.0" onAction="#specialEffectsButtonPressed" prefHeight="39.0" prefWidth="265.0" style="-fx-background-color: #262626;;" text="Special Effects" textFill="WHITE" visible="false">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
@@ -419,7 +419,7 @@
                 </JFXButton>
                 <AnchorPane fx:id="specialEffectsPane" layoutX="11.0" layoutY="134.0" prefHeight="106.0" prefWidth="265.0" visible="false" AnchorPane.rightAnchor="0.0">
                     <children>
-                        <JFXButton layoutX="4.0" onAction="#closeEffectPanel" prefHeight="60.0" prefWidth="235.0" text="Close" textFill="WHITE">
+                        <JFXButton layoutY="70.0" onAction="#closeEffectPanel" prefHeight="39.0" prefWidth="269.0" text="Close" textFill="WHITE" AnchorPane.bottomAnchor="0.0">
                             <font>
                                 <Font name="System Bold" size="18.0" />
                             </font>
@@ -436,9 +436,9 @@
                         </JFXButton>
                     </children>
                 </AnchorPane>
-                <AnchorPane layoutX="3.0" layoutY="342.0" prefHeight="281.0" prefWidth="269.0" style="-fx-background-color: #252324;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                <AnchorPane layoutX="3.0" layoutY="342.0" prefHeight="336.0" prefWidth="269.0" style="-fx-background-color: #252324;" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <children>
-                        <JFXButton fx:id="specialEffectsButton1" layoutX="13.0" layoutY="221.0" onAction="#rotate90" text="aa" textFill="WHITE">
+                        <JFXButton fx:id="specialEffectsButton1" layoutX="146.0" layoutY="155.0" onAction="#rotate90" text="aa" textFill="WHITE">
                             <font>
                                 <Font name="System Italic" size="1.0" />
                             </font>
@@ -453,7 +453,7 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="specialEffectsButton11" layoutX="72.0" layoutY="221.0" onAction="#rotate180" text="Button" textFill="WHITE">
+                        <JFXButton fx:id="specialEffectsButton11" layoutX="213.0" layoutY="155.0" onAction="#rotate180" prefHeight="27.0" prefWidth="25.0" text="Button" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -468,17 +468,17 @@
                                 </ImageView>
                             </graphic>
                         </JFXButton>
-                        <Label layoutX="20.0" layoutY="250.0" text="90°" textFill="WHITE">
+                        <Label layoutX="152.0" layoutY="192.0" text="90°" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="13.0" />
                             </font>
                         </Label>
-                        <Label layoutX="77.0" layoutY="251.0" text="180°" textFill="WHITE">
+                        <Label layoutX="216.0" layoutY="193.0" text="180°" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                        <JFXButton layoutX="73.0" layoutY="155.0" onAction="#zoomOut" text="Button" textFill="WHITE">
+                        <JFXButton layoutX="85.0" layoutY="154.0" onAction="#zoomOut" text="Button" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="1.0" />
                             </font>
@@ -558,12 +558,11 @@
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                        <JFXSlider fx:id="angleSlider" layoutX="127.0" layoutY="235.0" majorTickUnit="30.0" max="45.0" min="-45.0" minorTickCount="6" prefHeight="39.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" value="0.1" />
-                        <AnchorPane layoutX="127.0" layoutY="144.0" prefHeight="67.0" prefWidth="138.0">
+                        <AnchorPane layoutX="-2.0" layoutY="217.0" prefHeight="121.0" prefWidth="269.0">
                             <children>
-                                <JFXButton layoutX="101.0" layoutY="7.0" onAction="#COMPRESS" prefHeight="27.0" prefWidth="32.0" textFill="WHITE">
+                                <JFXButton layoutX="168.0" layoutY="3.0" onAction="#COMPRESS" prefHeight="34.0" prefWidth="99.0" text="Compress" textFill="WHITE">
                                     <font>
-                                        <Font size="1.0" />
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                     <graphic>
                                         <ImageView fitHeight="24.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
@@ -576,9 +575,9 @@
                                         </ImageView>
                                     </graphic>
                                 </JFXButton>
-                                <JFXButton layoutX="99.0" layoutY="39.0" onAction="#UPSCALEIMAGE" prefHeight="17.0" prefWidth="25.0" textFill="WHITE">
+                                <JFXButton layoutX="168.0" layoutY="39.0" onAction="#UPSCALEIMAGE" prefHeight="29.0" prefWidth="84.0" text="Scale" textFill="WHITE">
                                     <font>
-                                        <Font name="System Bold" size="1.0" />
+                                        <Font name="System Bold" size="12.0" />
                                     </font>
                                     <graphic>
                                         <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -591,8 +590,24 @@
                                         </ImageView>
                                     </graphic>
                                 </JFXButton>
-                                <JFXSlider fx:id="compressQuality" blockIncrement="0.0" layoutX="5.0" layoutY="13.0" prefHeight="33.0" prefWidth="91.0" showTickLabels="true" />
-                                <JFXSlider fx:id="upscaleSlider" blockIncrement="1.0" layoutX="5.0" layoutY="42.0" majorTickUnit="1.0" max="5.0" prefHeight="33.0" prefWidth="91.0" showTickLabels="true" value="1.0" />
+                                <JFXSlider fx:id="compressQuality" blockIncrement="0.0" layoutX="11.0" layoutY="9.0" prefHeight="35.0" prefWidth="145.0" showTickLabels="true" />
+                                <JFXSlider fx:id="upscaleSlider" blockIncrement="1.0" layoutX="13.0" layoutY="48.0" majorTickUnit="1.0" max="5.0" prefHeight="27.0" prefWidth="145.0" showTickLabels="true" value="2.5" />
+                              <JFXSlider fx:id="angleSlider" layoutX="11.0" layoutY="84.0" majorTickUnit="30.0" max="45.0" min="-45.0" minorTickCount="6" prefHeight="35.0" prefWidth="145.0" showTickLabels="true" showTickMarks="true" value="0.1" />
+                        <JFXButton layoutX="161.0" layoutY="74.0" onAction="#UPSCALEIMAGE" prefHeight="35.0" prefWidth="105.0" text="Straight" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/angle.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
                             </children>
                         </AnchorPane>
                         <JFXButton layoutX="150.0" layoutY="88.0" maxHeight="25.0" maxWidth="25.0" minHeight="25.0" minWidth="25.0" onAction="#verticalSideBlur" prefHeight="25.0" prefWidth="25.0">
@@ -636,7 +651,7 @@
                                 <Font name="System Bold" size="12.0" />
                             </font>
                         </Label>
-                  <JFXButton layoutX="9.0" layoutY="22.0" onAction="#undoButtonPressed" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
+                  <JFXButton layoutX="9.0" layoutY="22.0" onAction="#undoButtonPressed" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="1.0" />
                      </font>
@@ -651,12 +666,12 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <Label layoutX="14.0" layoutY="50.0" text="Undo" textFill="WHITE">
+                  <Label layoutX="14.0" layoutY="50.0" text="Undo" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <JFXButton layoutX="67.0" layoutY="22.0" onAction="#redoButtonPressed" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
+                  <JFXButton layoutX="67.0" layoutY="22.0" onAction="#redoButtonPressed" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="1.0" />
                      </font>
@@ -671,11 +686,11 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <Label layoutX="73.0" layoutY="50.0" text="Redo" textFill="WHITE">
+                  <Label layoutX="73.0" layoutY="50.0" text="Redo" textFill="WHITE" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font></Label>
-                      <JFXButton layoutX="142.0" layoutY="17.0" onAction="#redEyeCorrection" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
+                      <JFXButton layoutX="8.0" layoutY="17.0" onAction="#redEyeCorrection" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
                           <font>
                               <Font name="System Bold" size="1.0" />
                           </font>
@@ -687,14 +702,35 @@
                               </ImageView>
                           </graphic>
                       </JFXButton>
-                      <Label layoutX="141.0" layoutY="50.0" text="Red Eye" textFill="WHITE">
+                      <Label layoutX="7.0" layoutY="58.0" text="Red Eye" textFill="WHITE">
                           <font>
                               <Font name="System Bold" size="12.0" />
                           </font>
                       </Label>
+                  <JFXButton layoutX="208.0" layoutY="20.0" onAction="#smoothingButtonPressed" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #262626;;" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="1.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/beauty.png" />
+                           </image>
+                           <effect>
+                              <ColorAdjust brightness="1.0" />
+                           </effect>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <Label layoutX="205.0" layoutY="50.0" prefHeight="25.0" prefWidth="47.0" text="Smooth" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <JFXSlider fx:id="smoothingSlider" disable="true" layoutX="89.0" layoutY="33.0" majorTickUnit="5.0" max="31.0" min="1.0" prefHeight="34.0" prefWidth="115.0" showTickLabels="true" showTickMarks="true" value="15.5" />
                     </children>
                 </AnchorPane>
-                <JFXButton layoutX="9.0" layoutY="222.0" onAction="#cropButtonPressed" prefHeight="35.0" prefWidth="85.0" style="-fx-background-color: #262626;" text="Crop" textFill="WHITE">
+                <JFXButton layoutX="2.0" layoutY="239.0" onAction="#cropButtonPressed" prefHeight="35.0" prefWidth="84.0" style="-fx-background-color: #262626;" text="Crop" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>
@@ -709,7 +745,19 @@
                         </ImageView>
                     </graphic>
                 </JFXButton>
-                <MenuButton layoutX="2.0" layoutY="275.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="99.0" style="-fx-background-color: #262626;" text="Select" textFill="WHITE" AnchorPane.leftAnchor="2.0">
+            <JFXButton layoutX="98.0" layoutY="237.0" onAction="#chooseBackground" prefHeight="39.0" prefWidth="157.0" style="-fx-background-color: #262626;;" text="Choose Background" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/selection.jpg" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+                <MenuButton fx:id="areaSelectionMenu" layoutX="41.0" layoutY="187.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="203.0" style="-fx-background-color: #262626;" text="Area Selection" textFill="WHITE" AnchorPane.leftAnchor="41.0">
                     <items>
                         <MenuItem mnemonicParsing="false">
                             <graphic>
@@ -780,23 +828,277 @@
                         </ImageView>
                     </graphic>
                     <font>
-                        <Font name="System Bold" size="12.0" />
+                        <Font name="System Bold" size="18.0" />
                     </font>
                 </MenuButton>
-            <JFXButton layoutX="106.0" layoutY="274.0" onAction="#chooseBackground" prefHeight="37.0" prefWidth="152.0" style="-fx-background-color: #262626;;" text="Choose Background" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="11.0" />
-               </font>
+            <MenuButton fx:id="specialEffectMenu" layoutX="41.0" layoutY="139.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="203.0" style="-fx-background-color: #262626;" text="Special Effects" textFill="WHITE">
+               <items>
+                  <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <JFXButton onAction="#glow" prefHeight="39.0" prefWidth="115.0" styleClass="grey-color" text="Glow" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/bloom.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <JFXButton onAction="#sepiatone" prefHeight="39.0" prefWidth="115.0" styleClass="grey-color" text="Sepia Tone" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/sepiatone.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <JFXButton onAction="#dropshadow" prefHeight="39.0" prefWidth="115.0" styleClass="grey-color" text="Drop Shadow" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/dropshadow.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <JFXButton onAction="#bloom" prefHeight="39.0" prefWidth="115.0" styleClass="grey-color" text="Bloom" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/bloom.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <JFXButton onAction="#innershadow" prefHeight="39.0" prefWidth="115.0" styleClass="grey-color" text="Vignette" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/vintage.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </graphic>
+                  </MenuItem>
+                  <MenuItem mnemonicParsing="false">
+                     <graphic>
+                        <JFXButton onAction="#boxBlur" prefHeight="39.0" prefWidth="115.0" styleClass="grey-color" text="Box Blur" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@icons/blur.png" />
+                                 </image>
+                                 <effect>
+                                    <ColorAdjust brightness="1.0" />
+                                 </effect>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </graphic>
+                  </MenuItem>
+               </items>
                <graphic>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="27.0" fitWidth="37.0" preserveRatio="true">
                      <image>
-                        <Image url="@icons/selection.jpg" />
+                        <Image url="@icons/magic.png" />
                      </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
                   </ImageView>
                </graphic>
-            </JFXButton>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </MenuButton>
             </children>
         </AnchorPane>
+      <AnchorPane fx:id="emojiPane" prefHeight="224.0" prefWidth="265.0" visible="false" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="250.0">
+         <children>
+            <JFXButton layoutX="224.0" layoutY="9.0" onAction="#closeEmojiPanel">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/close.png" />
+                     </image>
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ImageView>
+               </graphic>
+               <font>
+                  <Font size="1.0" />
+               </font>
+            </JFXButton>
+            <HBox layoutX="18.0" layoutY="46.0" prefHeight="35.0" prefWidth="235.0" spacing="15.0">
+               <children>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/lol1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/lol2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/think1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/100.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/boy.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox layoutX="18.0" layoutY="94.0" prefHeight="35.0" prefWidth="235.0" spacing="15.0">
+               <children>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/broken.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/cry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/fire.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/girl.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/love.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox layoutX="18.0" layoutY="140.0" prefHeight="35.0" prefWidth="235.0" spacing="15.0">
+               <children>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/sad.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/star.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/think2.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/think3.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@emojis/tinder.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <HBox layoutX="18.0" layoutY="182.0" prefHeight="35.0" prefWidth="235.0" spacing="15.0">
+               <children>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/gym.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/angry.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/ok.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/vomit.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/OMG.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
     </AnchorPane>
 
 </AnchorPane>

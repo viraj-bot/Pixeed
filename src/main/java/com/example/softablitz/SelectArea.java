@@ -39,6 +39,7 @@ public class SelectArea {
     protected static Mat result;
     protected static Mat mask2;
 
+
     public SelectArea(File file, ImageView imageView) throws FileNotFoundException {
         try {
             System.loadLibrary(Core.NATIVE_LIBRARY_NAME);

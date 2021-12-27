@@ -16,22 +16,27 @@ import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Polygon;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.FileChooser;
 import org.opencv.core.Core;
+import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -39,13 +44,10 @@ import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Stack;
-import java.util.function.UnaryOperator;
 
 
 public class Controller implements Initializable {
-
-    @FXML
-    private Slider topToBottomCrop, leftToRightCrop, rightToLeftCrop, bottomToUpCrop;
+    
     @FXML
     private AnchorPane menuBarPane, imageViewPane;
     @FXML
@@ -59,15 +61,13 @@ public class Controller implements Initializable {
     @FXML
     private TextArea FIELD;
     @FXML
-    private AnchorPane adjustPane;
+    private AnchorPane adjustPane, emojiPane;
     @FXML
     private JFXButton adjustButton;
     @FXML
     private JFXButton textButton;
     @FXML
     private AnchorPane specialEffectsPane;
-    @FXML
-    private JFXButton specialEffectsButton;
     @FXML
     private ColorPicker brushColorPicker;
     @FXML
@@ -134,31 +134,11 @@ public class Controller implements Initializable {
         imageView.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                imageView.setLayoutX(mouseEvent.getScreenX());
-                imageView.setLayoutY(mouseEvent.getSceneY());
+                imageView.setLayoutX(mouseEvent.getScreenX() - imageViewPane.getLayoutX());
+                imageView.setLayoutY(mouseEvent.getSceneY() - imageViewPane.getLayoutY());
             }
         });
-
         activeImageView = imageView;
-        final double[] layoutx = {imageView.getLayoutX()};
-        final double[] layouty = {imageView.getLayoutY()};
-        imageView.setOnMouseDragEntered(new EventHandler<MouseDragEvent>() {
-            @Override
-            public void handle(MouseDragEvent mouseDragEvent) {
-                imageView.getScene().setCursor(Cursor.CLOSED_HAND);
-            }
-        });
-        imageView.setOnMouseDragExited(new EventHandler<MouseDragEvent>() {
-            @Override
-            public void handle(MouseDragEvent mouseDragEvent) {
-                imageView.getScene().setCursor(Cursor.OPEN_HAND);
-//                imageView.setLayoutX(imageView.getLayoutX() + layoutx[0] - mouseDragEvent.getSceneX());
-//                imageView.setLayoutX(imageView.getLayoutX() + layouty[0] - mouseDragEvent.getSceneY());
-            }
-
-            ;
-        });
-
     }
 
     @FXML
@@ -222,6 +202,56 @@ public class Controller implements Initializable {
         stk.push(imageViewPane.getChildren());
     }
 
+    @FXML
+    protected void closeEmojiPanel() {
+        emojiPane.setVisible(false);
+    }
+
+    @FXML
+    protected void addEmojiButtonPressed() {
+        emojiPane.setVisible(true);
+        emojiPane.toFront();
+        for (Node e : emojiPane.getChildren()) {
+            if ((e instanceof HBox)) {
+                HBox hBox = (HBox) e;
+                for (Node x : hBox.getChildren()) {
+                    if (x instanceof ImageView) {
+                        ImageView imageView = (ImageView) x;
+                        JFXButton jfxButton = new JFXButton();
+                        imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                AnchorPane anchorPane = new AnchorPane();
+                                imageView.setFitWidth(100);
+                                imageView.setFitHeight(100);
+                                try {
+                                    ImageView imageView1 = new ImageView(new Image(new FileInputStream("src/main/resources/com/example/softablitz/icons/close.png")));
+                                    ColorAdjust colorAdjust = new ColorAdjust();
+                                    colorAdjust.setBrightness(1);
+                                    imageView1.setEffect(colorAdjust);
+                                    jfxButton.setGraphic(imageView1);
+                                } catch (FileNotFoundException ex) {
+                                    ex.printStackTrace();
+                                }
+                                anchorPane.getChildren().add(imageView);
+                                imageViewPane.getChildren().add(anchorPane);
+                                emojiPane.setVisible(false);
+                            }
+                        });
+                        imageView.setOnMouseDragged(new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent mouseEvent) {
+                                imageView.setLayoutX(mouseEvent.getSceneX() - imageViewPane.getLayoutX());
+                                imageView.setLayoutY(mouseEvent.getSceneY() - imageViewPane.getLayoutY());
+                            }
+                        });
+                        handleZoom(imageView);
+                    }
+                }
+            }
+        }
+    }
+
     public double centerFrameImage(ImageView imageView, AnchorPane anchorPane) {
         Image image = imageView.getImage();
         double ratio = Math.min((double) anchorPane.getHeight() / image.getHeight(), (double) anchorPane.getWidth() / image.getWidth());
@@ -250,8 +280,9 @@ public class Controller implements Initializable {
     protected void closeBrushPanel() {
         brushPane.setVisible(false);
         brushButton.setVisible(true);
-        specialEffectsButton.setVisible(true);
 
+        specialEffectMenu.setVisible(true);
+        areaSelectionMenu.setVisible(true);
     }
 
     @FXML
@@ -260,7 +291,8 @@ public class Controller implements Initializable {
         adjustButton.setVisible(true);
         textButton.setVisible(true);
         brushButton.setVisible(true);
-        specialEffectsButton.setVisible(true);
+
+        specialEffectMenu.setVisible(true);
     }
 
     @FXML
@@ -270,26 +302,25 @@ public class Controller implements Initializable {
         TEXTPANE.setVisible(false);
         textButton.setVisible(true);
         brushButton.setVisible(true);
-        specialEffectsButton.setVisible(true);
-
+        specialEffectMenu.setVisible(true);
+        areaSelectionMenu.setVisible(true);
     }
 
     @FXML
     protected void closeEffectPanel() {
         specialEffectsPane.setVisible(false);
-        specialEffectsButton.setVisible(true);
-
+        specialEffectMenu.setVisible(true);
     }
 
     @FXML
     protected void adjustHandle() {
         brushPane.setVisible(false);
         TEXTPANE.setVisible(false);
-        specialEffectsPane.setVisible(false);
         if (activeImageView == null)
             return;
-        specialEffectsButton.setVisible(false);
+        specialEffectMenu.setVisible(false);
         textButton.setVisible(false);
+        areaSelectionMenu.setVisible(true);
         brushButton.setVisible(false);
         adjustButton.setVisible(false);
         adjustPane.setVisible(true);
@@ -298,12 +329,16 @@ public class Controller implements Initializable {
     }
 
     @FXML
+    private MenuButton specialEffectMenu, areaSelectionMenu;
+
+    @FXML
     private void textButtonPressed() {
         brushPane.setVisible(false);
         specialEffectsPane.setVisible(false);
         if (activeImageView == null)
             return;
-        specialEffectsButton.setVisible(false);
+        specialEffectMenu.setVisible(false);
+        areaSelectionMenu.setVisible(false);
         textButton.setVisible(false);
         brushButton.setVisible(false);
         TEXTPANE.setVisible(true);
@@ -315,12 +350,12 @@ public class Controller implements Initializable {
         TEXTPANE.setVisible(false);
         textButton.setVisible(true);
         adjustButton.setVisible(true);
-        specialEffectsButton.setVisible(true);
+
         if (activeImageView == null) {
             return;
         }
-        specialEffectsButton.setVisible(false);
-
+        specialEffectMenu.setVisible(false);
+        areaSelectionMenu.setVisible(false);
         brushPane.setVisible(true);
         brushButton.setVisible(false);
         GraphicsContext g;
@@ -354,7 +389,22 @@ public class Controller implements Initializable {
         if (activeImageView == null)
             return;
         specialEffectsPane.setVisible(true);
-        specialEffectsButton.setVisible(false);
+
+    }
+
+    @FXML
+    private JFXSlider smoothingSlider;
+
+    @FXML
+    protected void smoothingButtonPressed() {
+        smoothingSlider.setDisable(false);
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        smoothingSlider.setOnMouseDragged(e -> {
+            Mat image = Imgcodecs.imread(file.getAbsolutePath(), Imgcodecs.IMREAD_COLOR);
+            Mat dst = image.clone();
+            Imgproc.bilateralFilter(image, dst, (int) smoothingSlider.getValue(), smoothingSlider.getValue() * 2, smoothingSlider.getValue() / 2);
+            RedEyeCorrection.showResult(dst, activeImageView);
+        });
     }
 
 
@@ -402,10 +452,9 @@ public class Controller implements Initializable {
     @FXML
     protected void redEyeCorrection() throws InterruptedException {
         Imgcodecs imgCodecs = new Imgcodecs();
-        RedEyeCorrection redEyeCorrection = new RedEyeCorrection();
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        RedEyeCorrection redEyeCorrection = new RedEyeCorrection();
         redEyeCorrection.correctRedEye(file, imgCodecs, activeImageView);
-
     }
 
     @FXML
@@ -440,7 +489,7 @@ public class Controller implements Initializable {
 
     protected static void push(AnchorPane imageViewPane) {
         try {
-            Undo undo1 = new Undo(imageViewPane);
+            Undo undo1 = new Undo(1);
             ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream("D:\\file_name.ser"));
             ois.writeObject(undo1);
             ois.close();
@@ -492,6 +541,58 @@ public class Controller implements Initializable {
             activeImageView.setLayoutX(e.getSceneX() - imageViewPane.getLayoutX());
             activeImageView.setLayoutY(e.getSceneY() - imageViewPane.getLayoutY());
         });
+    }
+
+    @FXML
+    protected void dropshadow() {
+        activeImageView.setEffect(new DropShadow(100, Color.TURQUOISE));
+
+    }
+
+    @FXML
+    protected void sepiatone() {
+        activeImageView.setEffect(new SepiaTone());
+
+    }
+
+    @FXML
+    protected void boxBlur() {
+        activeImageView.setEffect(new BoxBlur(4, 4, 4));
+
+    }
+
+    @FXML
+    protected void bloom() {
+        activeImageView.setEffect(new Bloom());
+
+    }
+
+    @FXML
+    protected void glow() {
+        activeImageView.setEffect(new Glow(60   ));
+
+    }
+
+    @FXML
+    protected void innershadow() {
+        activeImageView.setEffect(new InnerShadow(200, Color.BLACK));
+
+    }
+
+    @FXML
+    protected void reflection() {
+        activeImageView.setEffect(new Reflection());
+
+    }
+
+    @FXML
+    protected void lightdistant() {
+        Light.Distant light = new Light.Distant();
+        light.setAzimuth(10);
+        light.setColor(Color.YELLOW);
+        Lighting lighting = new Lighting();
+        lighting.setLight(light);
+        activeImageView.setEffect(lighting);
     }
 
     @FXML

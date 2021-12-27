@@ -1,13 +1,13 @@
 package com.example.softablitz;
 
-import javafx.scene.layout.AnchorPane;
 
-import java.io.*;
+
+import java.io.Serializable;
 
 public class Undo implements Serializable {
-    private AnchorPane imageViewPane;
+    private int imageViewPane;
 
-    public Undo(AnchorPane anchorPane) {
+    public Undo(int anchorPane) {
         this.imageViewPane = anchorPane;
     }
 }
