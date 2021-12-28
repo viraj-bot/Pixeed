@@ -130,12 +130,11 @@ public class Controller implements Initializable {
         imageView.setImage(image);
         centerFrameImage(imageView, imageViewPane);
         handleZoom(imageView);
-
         imageView.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                imageView.setLayoutX(mouseEvent.getScreenX() - imageViewPane.getLayoutX());
-                imageView.setLayoutY(mouseEvent.getSceneY() - imageViewPane.getLayoutY());
+                imageView.setLayoutX(mouseEvent.getScreenX());
+                imageView.setLayoutY(mouseEvent.getSceneY());
             }
         });
         activeImageView = imageView;
@@ -158,15 +157,6 @@ public class Controller implements Initializable {
                 imageView.setScaleY(imageView.getScaleY() * finalZoomFactor);
             }
         });
-        imageView.setOnMouseDragEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                imageViewPane.setCursor(Cursor.OPEN_HAND);
-                System.out.println(mouseEvent.getY());
-                System.out.println(mouseEvent.getX());
-            }
-        });
-
     }
 
 
@@ -199,7 +189,6 @@ public class Controller implements Initializable {
                 text.setFont(new Font(FONTADJUST.getValue()));
             }
         });
-        stk.push(imageViewPane.getChildren());
     }
 
     @FXML
@@ -212,6 +201,7 @@ public class Controller implements Initializable {
         emojiPane.setVisible(true);
         emojiPane.toFront();
         for (Node e : emojiPane.getChildren()) {
+
             if ((e instanceof HBox)) {
                 HBox hBox = (HBox) e;
                 for (Node x : hBox.getChildren()) {
@@ -475,39 +465,6 @@ public class Controller implements Initializable {
         imageViewPane.setScaleY(imageViewPane.getScaleY() * finalZoomFactor);
     }
 
-    @FXML
-    protected void undoButtonPressed() {
-        try {
-            FileInputStream myFileInputStream = new FileInputStream("D:\\file_name.ser");
-            ObjectInputStream myObjectInputStream = new ObjectInputStream(myFileInputStream);
-            Undo tmp = (Undo) myObjectInputStream.readObject();
-            myObjectInputStream.close();
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
-    }
-
-    protected static void push(AnchorPane imageViewPane) {
-        try {
-            Undo undo1 = new Undo(1);
-            ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream("D:\\file_name.ser"));
-            ois.writeObject(undo1);
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    protected static void pop() {
-
-    }
-
-
-    @FXML
-    protected void redoButtonPressed() {
-
-
-    }
 
     @FXML
     protected void rectangleSelection() throws FileNotFoundException {
@@ -546,13 +503,11 @@ public class Controller implements Initializable {
     @FXML
     protected void dropshadow() {
         activeImageView.setEffect(new DropShadow(100, Color.TURQUOISE));
-
     }
 
     @FXML
     protected void sepiatone() {
         activeImageView.setEffect(new SepiaTone());
-
     }
 
     @FXML
@@ -569,7 +524,7 @@ public class Controller implements Initializable {
 
     @FXML
     protected void glow() {
-        activeImageView.setEffect(new Glow(60   ));
+        activeImageView.setEffect(new Glow(60));
 
     }
 
@@ -659,12 +614,6 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    protected void SETRAIN1() throws FileNotFoundException {
-        Filters filters = new Filters();
-        filters.setRain1Filter(imageViewPane);
-    }
-
-    @FXML
     protected void SETRAIN2() throws FileNotFoundException {
         Filters filters = new Filters();
         filters.setRain2Filter(imageViewPane);
@@ -704,5 +653,10 @@ public class Controller implements Initializable {
         SideBlur.horizonrolSideBlur(imageViewPane, activeImageView);
     }
 
+    public void undoButtonPressed(ActionEvent actionEvent) {
+    }
+
+    public void redoButtonPressed(ActionEvent actionEvent) {
+    }
 }
 

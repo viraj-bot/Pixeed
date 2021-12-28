@@ -43,6 +43,7 @@ public class ImageFrame {
         buttonImage.setFitWidth(15);
         buttonImage.setFitHeight(15);
         button.setGraphic(buttonImage);
+
         button.setStyle("-fx-background-color: transparent");
         button.setLayoutX(anchorPane.getPrefWidth() - 20);
         anchorPane.getChildren().add(button);

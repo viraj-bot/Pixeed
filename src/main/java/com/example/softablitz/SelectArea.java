@@ -2,7 +2,6 @@ package com.example.softablitz;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -41,24 +40,18 @@ public class SelectArea {
 
 
     public SelectArea(File file, ImageView imageView) throws FileNotFoundException {
-        try {
-            System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-            InputStream stream = new FileInputStream(file.getAbsolutePath());
-            Image image = new Image(stream);
-            ratio1 = image.getHeight() / imageView.getFitHeight();
-            ratio2 = image.getWidth() / imageView.getFitWidth();
-            matrix = Imgcodecs.imread(file.getAbsolutePath(), 4);
-            cvtColor(matrix, matrix, COLOR_BGR2BGRA);
-            System.out.println("channels = " + matrix.get(0, 0).length);
-            showResult(matrix, imageView);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("");
-            alert.setHeaderText("An error has been encountered");
-            alert.setContentText("Please select Some Image in file option"); //from www.java2s.com
-            alert.showAndWait();
-        }
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        InputStream stream = new FileInputStream(file.getAbsolutePath());
+        Image image = new Image(stream);
+        ratio1 = image.getHeight() / imageView.getFitHeight();
+        ratio2 = image.getWidth() / imageView.getFitWidth();
+        // get original image from file path and convert it to 4 channel mode using COLOR_BGR2BGRA
+        // 4 channel means rbga where a is alpha represents transparency of image
+        // alpha = 0 means fully transparent
+        // alpha = 255 means fully opaque
+        // alpha >0 && alpha <255 means fully translusent
+        matrix = Imgcodecs.imread(file.getAbsolutePath(), 4);
+        cvtColor(matrix, matrix, COLOR_BGR2BGRA);
     }
 
     protected static void makeRectangle(AnchorPane imageViewPane, ImageView imageView, File file) {
@@ -192,45 +185,44 @@ public class SelectArea {
     }
 
     protected static void makeMask(ImageView imageView, File file) throws FileNotFoundException {
+        // add all lasso or polygon points to corners
         ArrayList<Point> corners = new ArrayList<>();
         double ratio = Math.max(ratio2, ratio1);
         for (int i = 0; i < polygon.getPoints().size(); i += 2) {
             corners.add(new Point(polygon.getPoints().get(i) * ratio, polygon.getPoints().get(i + 1) * ratio));
         }
+        // now covert corners to MatOfPoint
         MatOfPoint matOfPoint = new MatOfPoint();
         matOfPoint.fromList(corners);
         matOfPointList = new ArrayList<>();
         matOfPointList.add(matOfPoint);
+        // and create new object of mask of matrix (original image size)
+        // and create it into 4 channel mode and assign 0,0,0,0 value to it
+        // i.e. make a fully transparent mask of original image size
         mask = new Mat(matrix.rows(), matrix.cols(), CV_8UC4, new Scalar(0, 0, 0, 0));
+        // and split the matrix into bgra
+        // i.e. split each channel of mask
         ArrayList<Mat> bgra = new ArrayList<>(4);
         split(mask, bgra);
+        // and draw a figure using matOfPointList and assign 255 value to each pixel
         drawContours(bgra.get(0), matOfPointList, -1, new Scalar(255), -1, LINE_AA);
         drawContours(bgra.get(1), matOfPointList, -1, new Scalar(255), -1, LINE_AA);
         drawContours(bgra.get(2), matOfPointList, -1, new Scalar(255), -1, LINE_AA);
+        // bgra.get(3) is alpha channel and assigning it 255 will make shape fully opaque
         drawContours(bgra.get(3), matOfPointList, -1, new Scalar(255), -1, LINE_AA);
+        // now merge bgra to mask
         merge(bgra, mask);
+        // now mask will have some region full transparent
+        // and shape will have fully opaque region
     }
-
-    protected static void fourChannels(Mat img) {
-        cvtColor(img, img, COLOR_BGR2BGRA);
-        Mat gray = new Mat();
-        cvtColor(img, gray, COLOR_BGR2GRAY);
-        Mat threshed = new Mat();
-        threshold(gray, threshed, 127, 255, THRESH_BINARY_INV | THRESH_OTSU);
-        Mat kernel = getStructuringElement(MORPH_ELLIPSE, new Size(11, 11));
-        Mat morphed = new Mat();
-        morphologyEx(threshed, morphed, MORPH_CLOSE, kernel);
-        Mat roi = new Mat();
-        findContours(morphed, matOfPointList, roi, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
-        Mat mask = new Mat(img.rows(), img.cols(), img.type());
-        fillPoly(mask, matOfPointList, new Scalar(255));
-        resize(result, result, result.size());
-        bitwise_and(img, mask, result);
-    }
-
 
     protected static void crop(File file, ImageView imageView, AnchorPane imageViewPane) throws FileNotFoundException {
         result = new Mat();
+        // now to crop image just make & operator bw mask and matrix
+        // eg. some matrix pixel    14  14  25 255  ,   16  16  18  255
+        // eg. some mask pixel       0   0  0   0   ,  255  255 255 255
+        // eq. matrix & mask    =    0   0  0   0   ,  16   16   18  255
+        // eq.                     tranparent region ,  opaque region
         bitwise_and(matrix, mask, result);
         showResult(result, imageView);
         imageViewPane.getChildren().remove(rect);

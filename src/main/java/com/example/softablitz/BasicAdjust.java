@@ -50,12 +50,6 @@ public class BasicAdjust {
                 activeImageView.setEffect(colorAdjust);
             }
         });
-        brightness.setOnMouseReleased(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Controller.push(imageViewPane);
-            }
-        });
     }
 
 }
