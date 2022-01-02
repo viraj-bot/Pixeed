@@ -54,4 +54,16 @@
 
 17:) Special effects like bloom, drop shadow, glow , sepia tone, vintage, box blur.
 
+# Avishkar 2021 
+### IDEATE | INNOVATE | CREATE
+##### Annual Techno-management fest of MNNIT Allahabad
+An array of mind boggling events, 
+the festival aims to nurture the budding talents of the nation. 
+It provides a platform to the young engineers and managers 
+to hone their techno-managerial skills on a much branded canvas. 
+
+### ACHIEVEMENT
+##### My team "HIDDEN" got "2nd Rank" in Softablitz(java based Software Development) event
+##### which comes under Cyberquest of [AVISHKAR](https://avishkar.mnnit.ac.in/)
+
 
